@@ -10,10 +10,10 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
 
-  <!-- SIDEBAR -->
+  <!-- BARRA LATERAL (SIDEBAR) -->
   <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex shrink-0">
     <div>
-      <!-- HEADER COM A LOGO OFICIAL ORIGINAL -->
+      <!-- Header da Sidebar com Logo Oficial -->
       <div class="p-5 border-b border-slate-800 flex items-center gap-3">
         <img src="logo.png" alt="Amigia Educação" class="h-10 w-auto object-contain bg-white/10 rounded-xl p-1 border border-white/10 shadow-sm" onerror="this.style.display='none'">
         <div>
@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <!-- NAV -->
+      <!-- Menu de Navegação -->
       <nav class="p-4 space-y-1.5 text-sm font-medium">
         <button id="navAll" onclick="navegarView('all')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition">
           <i class="fa-solid fa-chart-line w-5 text-center"></i>
@@ -63,7 +63,7 @@
     </div>
   </aside>
 
-  <!-- PRINCIPAL -->
+  <!-- ÁREA PRINCIPAL -->
   <main class="flex-1 flex flex-col overflow-y-auto">
     <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
       <div class="flex items-center gap-4 flex-1 max-w-md">
@@ -162,7 +162,7 @@
                 <td colspan="7" class="p-12 text-center text-slate-400">
                   <div class="flex flex-col items-center justify-center gap-2">
                     <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
-                    <span>Carregando dados da base...</span>
+                    <span>Sincronizando com a base de dados...</span>
                   </div>
                 </td>
               </tr>
@@ -295,7 +295,7 @@
     </div>
   </div>
 
-  <!-- JS -->
+  <!-- JS LOGICA -->
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxabtEapcy0UpIpY8U0Kjl2FzUnQniJzX5gmiEDz0q2qi7djmMAGDJWS0yfwq0NYsCSDA/exec";
     let leadsCache = [];
@@ -358,7 +358,7 @@
           <td colspan="7" class="p-12 text-center text-slate-400">
             <div class="flex flex-col items-center justify-center gap-2">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
-              <span>Carregando dados da base...</span>
+              <span>Conectando com a planilha...</span>
             </div>
           </td>
         </tr>`;
@@ -377,7 +377,7 @@
             <td colspan="7" class="p-8 text-center text-red-500 font-semibold">
               <div class="flex flex-col items-center justify-center gap-2">
                 <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
-                <span>Erro ao conectar à API. Atualize a implantação no Apps Script.</span>
+                <span>Erro ao carregar os dados. Verifique se a implantação do Apps Script foi criada como 'Nova Versão'.</span>
               </div>
             </td>
           </tr>`;
