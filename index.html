@@ -5,15 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CRM Amigia Educação</title>
   <link rel="icon" href="logo.png" type="image/png">
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- Chart.js para Gráficos Profissionais -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
 
-  <!-- BARRA LATERAL (SIDEBAR) -->
-  <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex shrink-0">
+  <!-- SIDEBAR LATERAL -->
+  <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex shrink-0 z-20">
     <div>
-      <!-- Header da Sidebar com Logo Oficial -->
+      <!-- Header com Logo Oficial -->
       <div class="p-5 border-b border-slate-800 flex items-center gap-3">
         <img src="logo.png" alt="Amigia Educação" class="h-10 w-auto object-contain bg-white/10 rounded-xl p-1 border border-white/10 shadow-sm" onerror="this.style.display='none'">
         <div>
@@ -22,7 +26,7 @@
         </div>
       </div>
 
-      <!-- Menu de Navegação -->
+      <!-- Navegação Principal -->
       <nav class="p-4 space-y-1.5 text-sm font-medium">
         <button id="navAll" onclick="navegarView('all')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition">
           <i class="fa-solid fa-chart-line w-5 text-center"></i>
@@ -39,44 +43,67 @@
       </nav>
     </div>
 
-    <!-- RODAPÉ PERFIL -->
-    <div class="p-4 border-t border-slate-800">
+    <!-- SELETOR DE PERFIL PREMIUM -->
+    <div class="p-4 border-t border-slate-800 relative">
       <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Perfil Ativo (Assinatura)</p>
       
-      <div class="flex items-center gap-3 bg-slate-800/90 p-2.5 rounded-xl border border-slate-700/80 shadow-sm">
-        <div id="userAvatar" class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner">
-          SF
-        </div>
-        
-        <div class="flex-1 min-w-0 flex flex-col justify-center">
-          <div class="relative flex items-center">
-            <select id="selectPerfil" onchange="alternarPerfil()" class="w-full bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer appearance-none pr-4 z-10 leading-snug">
-              <option value="Savio Ferraz (Diretor)" class="bg-slate-900 text-white">Savio Ferraz</option>
-              <option value="Lucas Silva (Gerente de Marketing)" class="bg-slate-900 text-white">Lucas Silva</option>
-              <option value="Alexandre Augusto (Gerente de Produtos)" class="bg-slate-900 text-white">Alexandre Augusto</option>
-            </select>
-            <i class="fa-solid fa-chevron-down absolute right-0 text-[10px] text-slate-400 pointer-events-none"></i>
+      <!-- Card Clicável -->
+      <button onclick="toggleUserMenu()" class="w-full flex items-center justify-between bg-slate-800/90 hover:bg-slate-800 p-2.5 rounded-xl border border-slate-700/80 shadow-sm transition group">
+        <div class="flex items-center gap-3 min-w-0">
+          <div id="userAvatar" class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner">
+            SF
           </div>
-          <span id="userCargo" class="text-[11px] text-slate-400 font-medium leading-none mt-1">Diretor</span>
+          <div class="text-left truncate">
+            <p id="userNameDisplay" class="text-xs font-bold text-white truncate leading-tight">Savio Ferraz</p>
+            <p id="userRoleDisplay" class="text-[11px] text-slate-400 font-medium leading-none mt-1">Diretor</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-up text-xs text-slate-400 group-hover:text-white transition ml-2"></i>
+      </button>
+
+      <!-- Popup do Menu de Perfil -->
+      <div id="userDropdown" class="hidden absolute bottom-20 left-4 right-4 bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-2 z-50 space-y-1">
+        <div onclick="selecionarPerfil('Savio Ferraz', 'Diretor', 'SF', 'bg-blue-600')" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-700/70 cursor-pointer transition">
+          <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold">SF</div>
+          <div>
+            <p class="text-xs font-bold text-white">Savio Ferraz</p>
+            <p class="text-[10px] text-slate-400">Diretor</p>
+          </div>
+        </div>
+        <div onclick="selecionarPerfil('Lucas Silva', 'Gerente de Marketing', 'LS', 'bg-emerald-600')" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-700/70 cursor-pointer transition">
+          <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">LS</div>
+          <div>
+            <p class="text-xs font-bold text-white">Lucas Silva</p>
+            <p class="text-[10px] text-slate-400">Gerente de Marketing</p>
+          </div>
+        </div>
+        <div onclick="selecionarPerfil('Alexandre Augusto', 'Gerente de Produtos', 'AA', 'bg-purple-600')" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-700/70 cursor-pointer transition">
+          <div class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white text-xs font-bold">AA</div>
+          <div>
+            <p class="text-xs font-bold text-white">Alexandre Augusto</p>
+            <p class="text-[10px] text-slate-400">Gerente de Produtos</p>
+          </div>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- ÁREA PRINCIPAL -->
+  <!-- ÁREA PRINCIPAL DA APLICAÇÃO -->
   <main class="flex-1 flex flex-col overflow-y-auto">
-    <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-      <div class="flex items-center gap-4 flex-1 max-w-md">
+
+    <!-- HEADER SUPERIOR DE BUSCA E AÇÕES -->
+    <header class="bg-white border-b border-slate-200 px-6 py-4 flex flex-col md:flex-row md:items-center justify-between sticky top-0 z-10 shadow-sm gap-4">
+      <div class="flex items-center gap-3 flex-1 max-w-lg">
         <div class="relative w-full">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-          <input type="text" id="searchInput" onkeyup="filtrarLeads()" placeholder="Buscar por escola, município, responsável..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+          <input type="text" id="searchInput" onkeyup="filtrarLeads()" placeholder="Buscar por escola, município, responsável..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50">
         </div>
       </div>
 
       <div class="flex items-center gap-3">
         <button onclick="carregarLeads()" class="px-4 py-2 border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-semibold transition flex items-center gap-2">
           <i id="btnRefreshIcon" class="fa-solid fa-arrows-rotate"></i>
-          <span>Atualizar</span>
+          <span>Atualizar Base</span>
         </button>
         <button onclick="abrirModalNovoLead()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-sm transition flex items-center gap-2">
           <i class="fa-solid fa-plus"></i>
@@ -85,63 +112,134 @@
       </div>
     </header>
 
+    <!-- DASHBOARD CONTENT -->
     <div class="p-6 space-y-6 max-w-7xl mx-auto w-full">
+
+      <!-- TÍTULO DINÂMICO -->
       <div>
-        <h2 id="pageTitle" class="text-2xl font-bold text-slate-800">Oportunidades & Leads</h2>
-        <p id="pageSubtitle" class="text-sm text-slate-500">Gerencie a prospecção de escolas públicas e particulares conectadas à sua base de dados.</p>
+        <h2 id="pageTitle" class="text-2xl font-black text-slate-800 tracking-tight">Oportunidades & Leads</h2>
+        <p id="pageSubtitle" class="text-sm text-slate-500">Gerencie o funil de prospecção e conversão de instituições de ensino.</p>
       </div>
 
-      <!-- METRICAS -->
+      <!-- CARDS DE MÉTRICAS -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
           <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-solid fa-building-columns"></i>
           </div>
           <div>
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total na Base</p>
-            <p id="metricTotal" class="text-2xl font-extrabold text-slate-800">0</p>
+            <p id="metricTotal" class="text-2xl font-black text-slate-800">0</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
           <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-solid fa-paper-plane"></i>
           </div>
           <div>
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mensagem Enviada</p>
-            <p id="metricEnviados" class="text-2xl font-extrabold text-slate-800">0</p>
+            <p id="metricEnviados" class="text-2xl font-black text-slate-800">0</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
           <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-solid fa-calendar-days"></i>
           </div>
           <div>
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Reuniões / Propostas</p>
-            <p id="metricReunioes" class="text-2xl font-extrabold text-slate-800">0</p>
+            <p id="metricReunioes" class="text-2xl font-black text-slate-800">0</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
           <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-solid fa-circle-check"></i>
           </div>
           <div>
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Fechados</p>
-            <p id="metricFechados" class="text-2xl font-extrabold text-slate-800">0</p>
+            <p id="metricFechados" class="text-2xl font-black text-slate-800">0</p>
           </div>
         </div>
       </div>
 
-      <!-- TABELA -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <!-- PAINEL DE GRÁFICOS VISUAIS -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-chart-simple text-blue-600"></i>
+              <span id="chart1Title">Distribuição por Status de Prospecção</span>
+            </h3>
+          </div>
+          <div class="h-56 relative">
+            <canvas id="mainChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-chart-pie text-emerald-600"></i>
+              <span id="chart2Title">Modalidade das Escolas</span>
+            </h3>
+          </div>
+          <div class="h-56 relative flex items-center justify-center">
+            <canvas id="secondaryChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- BARRA DE FILTROS AVANÇADOS -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-wrap gap-3 items-center justify-between">
+        <div class="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+          <i class="fa-solid fa-filter text-blue-600"></i>
+          <span>Filtros Rápidos:</span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 flex-1 justify-end">
+          <select id="filterStatus" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <option value="">Todos os Status</option>
+            <option value="Não iniciado">Não iniciado</option>
+            <option value="Mensagem Enviada">Mensagem Enviada</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Reunião Agendada">Reunião Agendada</option>
+            <option value="Proposta enviada">Proposta enviada</option>
+            <option value="Fechado">Fechado</option>
+          </select>
+
+          <select id="filterModalidade" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <option value="">Todas Modalidades</option>
+            <option value="Particular">Particular</option>
+            <option value="Pública">Pública</option>
+          </select>
+
+          <select id="filterMunicipio" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <option value="">Todos os Municípios</option>
+          </select>
+
+          <select id="filterPotencial" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <option value="">Todos Potenciais</option>
+            <option value="Grande">Potencial Grande</option>
+            <option value="Médio">Potencial Médio</option>
+            <option value="Baixo">Potencial Baixo</option>
+          </select>
+
+          <button onclick="limparFiltros()" class="text-xs font-bold text-slate-400 hover:text-slate-600 px-2 py-1 transition">
+            Limpar
+          </button>
+        </div>
+      </div>
+
+      <!-- TABELA DE RESULTADOS -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
           <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
             <i class="fa-solid fa-list-check text-blue-600"></i>
             <span id="tableTitle">Resultado de Leads Mapeados</span>
           </h3>
-          <span id="leadsCountLabel" class="text-xs font-bold bg-slate-200 text-slate-700 px-3 py-1 rounded-full">0 exibidos</span>
+          <span id="leadsCountLabel" class="text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-full">0 exibidos</span>
         </div>
 
         <div class="overflow-x-auto">
@@ -170,10 +268,11 @@
           </table>
         </div>
       </div>
+
     </div>
   </main>
 
-  <!-- MODAL -->
+  <!-- MODAL DE CADASTRO/EDIÇÃO -->
   <div id="leadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 my-auto">
       <div class="flex items-center justify-between border-b pb-4">
@@ -295,32 +394,35 @@
     </div>
   </div>
 
-  <!-- JS LOGICA -->
+  <!-- LÓGICA E JAVASCRIPT COMPLETO -->
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxabtEapcy0UpIpY8U0Kjl2FzUnQniJzX5gmiEDz0q2qi7djmMAGDJWS0yfwq0NYsCSDA/exec";
     let leadsCache = [];
     let currentViewFilter = 'all';
+    let perfilAtivoNome = 'Savio Ferraz';
 
-    function alternarPerfil() {
-      const perfil = document.getElementById('selectPerfil').value;
-      const avatar = document.getElementById('userAvatar');
-      const cargo = document.getElementById('userCargo');
+    let mainChartInstance = null;
+    let secondaryChartInstance = null;
 
-      if (perfil.includes("Savio")) {
-        avatar.textContent = "SF";
-        avatar.className = "w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner";
-        cargo.textContent = "Diretor";
-      } else if (perfil.includes("Lucas")) {
-        avatar.textContent = "LS";
-        avatar.className = "w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner";
-        cargo.textContent = "Gerente de Marketing";
-      } else {
-        avatar.textContent = "AA";
-        avatar.className = "w-9 h-9 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner";
-        cargo.textContent = "Gerente de Produtos";
-      }
+    // GERENCIAMENTO DE PERFIL PREMIUM
+    function toggleUserMenu() {
+      const dropdown = document.getElementById('userDropdown');
+      dropdown.classList.toggle('hidden');
     }
 
+    function selecionarPerfil(nome, cargo, iniciais, corBg) {
+      perfilAtivoNome = `${nome} (${cargo})`;
+      document.getElementById('userNameDisplay').textContent = nome;
+      document.getElementById('userRoleDisplay').textContent = cargo;
+      
+      const avatar = document.getElementById('userAvatar');
+      avatar.textContent = iniciais;
+      avatar.className = `w-9 h-9 rounded-xl ${corBg} flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner`;
+
+      document.getElementById('userDropdown').classList.add('hidden');
+    }
+
+    // NAVEGAÇÃO ENTRE ABAS
     function navegarView(view) {
       currentViewFilter = view;
       const navAll = document.getElementById('navAll');
@@ -334,20 +436,27 @@
       if (view === 'all') {
         navAll.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition";
         document.getElementById('pageTitle').textContent = "Oportunidades & Leads";
+        document.getElementById('pageSubtitle').textContent = "Gerencie o funil de prospecção e conversão de instituições de ensino.";
         document.getElementById('tableTitle').textContent = "Resultado de Leads Mapeados";
+        document.getElementById('chart1Title').textContent = "Distribuição por Status de Prospecção";
       } else if (view === 'mapeadas') {
         navMapeadas.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition";
         document.getElementById('pageTitle').textContent = "Escolas Mapeadas";
-        document.getElementById('tableTitle').textContent = "Todas as Escolas Mapeadas na Base";
+        document.getElementById('pageSubtitle').textContent = "Catálogo geral e inteligência territorial das instituições de ensino cadastradas.";
+        document.getElementById('tableTitle').textContent = "Todas as Escolas Mapeadas no Território";
+        document.getElementById('chart1Title').textContent = "Distribuição de Escolas por Município";
       } else if (view === 'reunioes') {
         navReunioes.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition";
         document.getElementById('pageTitle').textContent = "Reuniões & Propostas Agendadas";
-        document.getElementById('tableTitle').textContent = "Leads com Reunião Agendada ou Proposta Enviada";
+        document.getElementById('pageSubtitle').textContent = "Acompanhamento das negociações com reuniões confirmadas ou propostas enviadas.";
+        document.getElementById('tableTitle').textContent = "Leads em Fase Avançada de Negociação";
+        document.getElementById('chart1Title').textContent = "Fase das Negociações Agendadas";
       }
 
       filtrarLeads();
     }
 
+    // CARREGAR DADOS DA PLANILHA
     function carregarLeads() {
       const tbody = document.getElementById('leadsTableBody');
       const icon = document.getElementById('btnRefreshIcon');
@@ -358,7 +467,7 @@
           <td colspan="7" class="p-12 text-center text-slate-400">
             <div class="flex flex-col items-center justify-center gap-2">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
-              <span>Conectando com a planilha...</span>
+              <span>Carregando dados da planilha em tempo real...</span>
             </div>
           </td>
         </tr>`;
@@ -377,7 +486,7 @@
             <td colspan="7" class="p-8 text-center text-red-500 font-semibold">
               <div class="flex flex-col items-center justify-center gap-2">
                 <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
-                <span>Erro ao carregar os dados. Verifique se a implantação do Apps Script foi criada como 'Nova Versão'.</span>
+                <span>Erro ao carregar os dados. Tente atualizar novamente.</span>
               </div>
             </td>
           </tr>`;
@@ -391,8 +500,60 @@
       if (icon) icon.classList.remove('fa-spin');
 
       leadsCache = Array.isArray(data) ? data : [];
+      popularFiltroMunicipios(leadsCache);
       filtrarLeads();
-      atualizarMetricas(leadsCache);
+    }
+
+    function popularFiltroMunicipios(leads) {
+      const select = document.getElementById('filterMunicipio');
+      const municipios = [...new Set(leads.map(l => l.Município).filter(m => m && m.trim() !== ''))].sort();
+      
+      select.innerHTML = '<option value="">Todos os Municípios</option>';
+      municipios.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.textContent = m;
+        select.appendChild(opt);
+      });
+    }
+
+    function limparFiltros() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('filterStatus').value = '';
+      document.getElementById('filterModalidade').value = '';
+      document.getElementById('filterMunicipio').value = '';
+      document.getElementById('filterPotencial').value = '';
+      filtrarLeads();
+    }
+
+    function filtrarLeads() {
+      const term = document.getElementById('searchInput').value.toLowerCase();
+      const statusFilter = document.getElementById('filterStatus').value;
+      const modalidadeFilter = document.getElementById('filterModalidade').value;
+      const municipioFilter = document.getElementById('filterMunicipio').value;
+      const potencialFilter = document.getElementById('filterPotencial').value;
+
+      let filtrados = leadsCache.filter(l => {
+        const u = String(l.Unidade || l.Escola || Object.values(l)[0] || "").toLowerCase();
+        const m = String(l.Município || "").toLowerCase();
+        const r = String(l['Nome do responsável'] || "").toLowerCase();
+
+        const matchSearch = u.includes(term) || m.includes(term) || r.includes(term);
+        const matchStatus = !statusFilter || l.Status === statusFilter;
+        const matchModalidade = !modalidadeFilter || l.Modalidade === modalidadeFilter;
+        const matchMunicipio = !municipioFilter || l.Município === municipioFilter;
+        const matchPotencial = !potencialFilter || l.Potencial === potencialFilter;
+
+        return matchSearch && matchStatus && matchModalidade && matchMunicipio && matchPotencial;
+      });
+
+      if (currentViewFilter === 'reunioes') {
+        filtrados = filtrados.filter(l => l.Status === 'Reunião Agendada' || l.Status === 'Proposta enviada');
+      }
+
+      renderizarTabela(filtrados);
+      atualizarMetricas(filtrados);
+      atualizarGraficos(filtrados);
     }
 
     function renderizarTabela(leads) {
@@ -404,7 +565,7 @@
           <tr>
             <td colspan="7" class="p-12 text-center text-slate-400">
               <i class="fa-solid fa-folder-open text-2xl mb-2 block"></i>
-              Nenhum lead encontrado.
+              Nenhum lead encontrado com os filtros selecionados.
             </td>
           </tr>`;
         return;
@@ -418,17 +579,17 @@
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50/80 transition cursor-pointer";
         
-        let statusColor = "bg-slate-100 text-slate-700";
-        if (lead.Status === "Mensagem Enviada") statusColor = "bg-amber-100 text-amber-800 border border-amber-200";
-        if (lead.Status === "Reunião Agendada" || lead.Status === "Proposta enviada") statusColor = "bg-purple-100 text-purple-800 border border-purple-200";
-        if (lead.Status === "Fechado") statusColor = "bg-emerald-100 text-emerald-800 border border-emerald-200";
+        let statusColor = "bg-slate-100 text-slate-700 border-slate-200";
+        if (lead.Status === "Mensagem Enviada") statusColor = "bg-amber-50 text-amber-800 border-amber-200";
+        if (lead.Status === "Reunião Agendada" || lead.Status === "Proposta enviada") statusColor = "bg-purple-50 text-purple-800 border-purple-200";
+        if (lead.Status === "Fechado") statusColor = "bg-emerald-50 text-emerald-800 border-emerald-200 border";
 
         tr.innerHTML = `
           <td class="p-4 font-bold text-slate-800">${nomeUnidade}</td>
           <td class="p-4">${lead.Modalidade || '-'}</td>
           <td class="p-4">${lead.Município || '-'}</td>
-          <td class="p-4 text-xs font-medium">${lead['Telefone/WhatsApp'] || lead.Telefone || '-'}</td>
-          <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${statusColor}">${lead.Status || 'Novo'}</span></td>
+          <td class="p-4 text-xs font-semibold text-slate-600">${lead['Telefone/WhatsApp'] || lead.Telefone || '-'}</td>
+          <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold border ${statusColor}">${lead.Status || 'Não iniciado'}</span></td>
           <td class="p-4 text-xs font-bold text-slate-600">${lead.Potencial || '-'}</td>
           <td class="p-4 text-center">
             <button onclick="abrirModalEditarLead('${String(nomeUnidade).replace(/'/g, "\\'")}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Editar Lead">
@@ -447,23 +608,83 @@
       document.getElementById('metricFechados').textContent = leads.filter(l => l.Status === 'Fechado').length;
     }
 
-    function filtrarLeads() {
-      const term = document.getElementById('searchInput').value.toLowerCase();
-      
-      let filtrados = leadsCache.filter(l => {
-        const u = String(l.Unidade || l.Escola || Object.values(l)[0] || "").toLowerCase();
-        const m = String(l.Município || "").toLowerCase();
-        const r = String(l['Nome do responsável'] || "").toLowerCase();
-        return u.includes(term) || m.includes(term) || r.includes(term);
-      });
+    // ATUALIZAÇÃO DOS GRÁFICOS VISUAIS
+    function atualizarGraficos(leads) {
+      // Gráfico 1: Status ou Municípios dependendo da aba
+      const ctx1 = document.getElementById('mainChart').getContext('2d');
+      if (mainChartInstance) mainChartInstance.destroy();
 
-      if (currentViewFilter === 'reunioes') {
-        filtrados = filtrados.filter(l => l.Status === 'Reunião Agendada' || l.Status === 'Proposta enviada');
+      let labels1 = [];
+      let data1 = [];
+
+      if (currentViewFilter === 'mapeadas') {
+        const municipiosMap = {};
+        leads.forEach(l => {
+          const m = l.Município || 'Não Informado';
+          municipiosMap[m] = (municipiosMap[m] || 0) + 1;
+        });
+        labels1 = Object.keys(municipiosMap);
+        data1 = Object.values(municipiosMap);
+      } else {
+        const statusMap = {
+          'Não iniciado': 0, 'Mensagem Enviada': 0, 'Em andamento': 0,
+          'Reunião Agendada': 0, 'Proposta enviada': 0, 'Fechado': 0
+        };
+        leads.forEach(l => {
+          const st = l.Status || 'Não iniciado';
+          statusMap[st] = (statusMap[st] || 0) + 1;
+        });
+        labels1 = Object.keys(statusMap);
+        data1 = Object.values(statusMap);
       }
 
-      renderizarTabela(filtrados);
+      mainChartInstance = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: labels1,
+          datasets: [{
+            label: 'Quantidade',
+            data: data1,
+            backgroundColor: '#2563eb',
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+
+      // Gráfico 2: Modalidades (Particular vs Pública)
+      const ctx2 = document.getElementById('secondaryChart').getContext('2d');
+      if (secondaryChartInstance) secondaryChartInstance.destroy();
+
+      const modalidadeMap = {};
+      leads.forEach(l => {
+        const mod = l.Modalidade || 'Outros';
+        modalidadeMap[mod] = (modalidadeMap[mod] || 0) + 1;
+      });
+
+      secondaryChartInstance = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(modalidadeMap),
+          datasets: [{
+            data: Object.values(modalidadeMap),
+            backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
     }
 
+    // MODAL E FORMULÁRIO
     function abrirModalNovoLead() {
       document.getElementById('crmForm').reset();
       document.getElementById('Unidade').readOnly = false;
@@ -500,7 +721,6 @@
       btn.disabled = true;
       btn.textContent = "⏳ Salvando...";
 
-      const perfilAtivo = document.getElementById('selectPerfil').value;
       const dataHoje = new Date().toLocaleDateString('pt-BR');
 
       const fields = [
@@ -518,7 +738,7 @@
       });
 
       const obsAtual = payload["Observações"] || "";
-      const notaAssinada = `[${dataHoje} - Editado por: ${perfilAtivo}]`;
+      const notaAssinada = `[${dataHoje} - Editado por: ${perfilAtivoNome}]`;
       if (!obsAtual.includes(notaAssinada)) {
         payload["Observações"] = (obsAtual ? obsAtual + "\n" : "") + notaAssinada;
       }
@@ -531,7 +751,7 @@
           body: JSON.stringify(payload)
         });
 
-        alert(`✅ Oportunidade salva com sucesso por ${perfilAtivo}!`);
+        alert(`✅ Oportunidade salva com sucesso por ${perfilAtivoNome}!`);
         fecharModal();
         carregarLeads();
       } catch (err) {
