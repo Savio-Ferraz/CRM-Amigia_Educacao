@@ -4,33 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CRM Amigia Educação</title>
-  <!-- Favicon do Coração Amigia para a aba do navegador -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%2300C3A5' d='M256 448c-12 0-24-4-33-13L67 280c-45-45-45-118 0-163 43-43 113-45 158-4l31 29 31-29c45-41 115-39 158 4 45 45 45 118 0 163L289 435c-9 9-21 13-33 13z'/><path fill='%23FF5A5F' d='M256 180c-25-25-65-25-90 0s-25 65 0 90l90 90 90-90c25-25 25-65 0-90s-65-25-90 0z'/><path fill='%23FFC72C' d='M256 120c15-15 40-15 55 0s15 40 0 55l-55 55-55-55c-15-15-15-40 0-55s40-15 55 0z'/><path fill='%230084FF' d='M200 230c-10-10-26-10-36 0s-10 26 0 36l36 36 36-36c10-10 10-26 0-36s-26-10-36 0z'/></svg>">
+  <link rel="icon" href="logo.png" type="image/png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
 
-  <!-- BARRA LATERAL (SIDEBAR) -->
+  <!-- SIDEBAR -->
   <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex shrink-0">
     <div>
-      <!-- Header da Sidebar com Logo Vetorizada Oficial Amigia (Com Coração Gradiente) -->
+      <!-- HEADER COM A LOGO OFICIAL ORIGINAL -->
       <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-        <div class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center p-2 shadow-inner border border-slate-700/60 shrink-0">
-          <svg viewBox="0 0 512 512" class="w-full h-full drop-shadow">
-            <path fill="#00C3A5" d="M256 448c-12 0-24-4-33-13L67 280c-45-45-45-118 0-163 43-43 113-45 158-4l31 29 31-29c45-41 115-39 158 4 45 45 45 118 0 163L289 435c-9 9-21 13-33 13z"/>
-            <path fill="#FF5A5F" d="M256 180c-25-25-65-25-90 0s-25 65 0 90l90 90 90-90c25-25 25-65 0-90s-65-25-90 0z"/>
-            <path fill="#FFC72C" d="M256 120c15-15 40-15 55 0s15 40 0 55l-55 55-55-55c-15-15-15-40 0-55s40-15 55 0z"/>
-            <path fill="#0084FF" d="M200 230c-10-10-26-10-36 0s-10 26 0 36l36 36 36-36c10-10 10-26 0-36s-26-10-36 0z"/>
-          </svg>
-        </div>
+        <img src="logo.png" alt="Amigia Educação" class="h-10 w-auto object-contain bg-white/10 rounded-xl p-1 border border-white/10 shadow-sm" onerror="this.style.display='none'">
         <div>
           <h1 class="font-black text-white text-xl tracking-tight leading-none">Amigia</h1>
           <p class="text-[10px] font-bold text-sky-400 tracking-widest mt-1 uppercase">EDUCAÇÃO</p>
         </div>
       </div>
 
-      <!-- Menu de Navegação Interativo -->
+      <!-- NAV -->
       <nav class="p-4 space-y-1.5 text-sm font-medium">
         <button id="navAll" onclick="navegarView('all')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition">
           <i class="fa-solid fa-chart-line w-5 text-center"></i>
@@ -71,10 +63,8 @@
     </div>
   </aside>
 
-  <!-- ÁREA PRINCIPAL -->
+  <!-- PRINCIPAL -->
   <main class="flex-1 flex flex-col overflow-y-auto">
-
-    <!-- BARRA SUPERIOR -->
     <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
       <div class="flex items-center gap-4 flex-1 max-w-md">
         <div class="relative w-full">
@@ -95,15 +85,13 @@
       </div>
     </header>
 
-    <!-- DASHBOARD -->
     <div class="p-6 space-y-6 max-w-7xl mx-auto w-full">
-
       <div>
         <h2 id="pageTitle" class="text-2xl font-bold text-slate-800">Oportunidades & Leads</h2>
         <p id="pageSubtitle" class="text-sm text-slate-500">Gerencie a prospecção de escolas públicas e particulares conectadas à sua base de dados.</p>
       </div>
 
-      <!-- CARDS METRICAS -->
+      <!-- METRICAS -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
           <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
@@ -146,7 +134,7 @@
         </div>
       </div>
 
-      <!-- TABELA DE RESULTADOS -->
+      <!-- TABELA -->
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
           <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
@@ -174,7 +162,7 @@
                 <td colspan="7" class="p-12 text-center text-slate-400">
                   <div class="flex flex-col items-center justify-center gap-2">
                     <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
-                    <span>Sincronizando com a base de dados...</span>
+                    <span>Carregando dados da base...</span>
                   </div>
                 </td>
               </tr>
@@ -182,14 +170,12 @@
           </table>
         </div>
       </div>
-
     </div>
   </main>
 
-  <!-- MODAL FORMULÁRIO -->
+  <!-- MODAL -->
   <div id="leadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 my-auto">
-      
       <div class="flex items-center justify-between border-b pb-4">
         <div>
           <h3 id="modalTitle" class="text-xl font-bold text-slate-800">Cadastrar Novo Lead</h3>
@@ -309,7 +295,7 @@
     </div>
   </div>
 
-  <!-- JS LOGICA -->
+  <!-- JS -->
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxabtEapcy0UpIpY8U0Kjl2FzUnQniJzX5gmiEDz0q2qi7djmMAGDJWS0yfwq0NYsCSDA/exec";
     let leadsCache = [];
@@ -337,7 +323,6 @@
 
     function navegarView(view) {
       currentViewFilter = view;
-      
       const navAll = document.getElementById('navAll');
       const navMapeadas = document.getElementById('navMapeadas');
       const navReunioes = document.getElementById('navReunioes');
@@ -392,7 +377,7 @@
             <td colspan="7" class="p-8 text-center text-red-500 font-semibold">
               <div class="flex flex-col items-center justify-center gap-2">
                 <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
-                <span>Erro ao carregar dados da planilha.</span>
+                <span>Erro ao conectar à API. Atualize a implantação no Apps Script.</span>
               </div>
             </td>
           </tr>`;
@@ -427,7 +412,7 @@
 
       tbody.innerHTML = '';
       leads.forEach((lead) => {
-        const nomeUnidade = lead.Unidade || lead.Escola || lead.Nome || Object.values(lead)[0];
+        const nomeUnidade = lead.Unidade || lead.Escola || Object.values(lead)[0];
         if (!nomeUnidade) return;
 
         const tr = document.createElement('tr');
@@ -446,7 +431,7 @@
           <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${statusColor}">${lead.Status || 'Novo'}</span></td>
           <td class="p-4 text-xs font-bold text-slate-600">${lead.Potencial || '-'}</td>
           <td class="p-4 text-center">
-            <button onclick="abrirModalEditarLead('${nomeUnidade.replace(/'/g, "\\'")}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Editar Lead">
+            <button onclick="abrirModalEditarLead('${String(nomeUnidade).replace(/'/g, "\\'")}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Editar Lead">
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
           </td>
@@ -466,9 +451,9 @@
       const term = document.getElementById('searchInput').value.toLowerCase();
       
       let filtrados = leadsCache.filter(l => {
-        const u = (l.Unidade || l.Escola || l.Nome || "").toLowerCase();
-        const m = (l.Município || "").toLowerCase();
-        const r = (l['Nome do responsável'] || "").toLowerCase();
+        const u = String(l.Unidade || l.Escola || Object.values(l)[0] || "").toLowerCase();
+        const m = String(l.Município || "").toLowerCase();
+        const r = String(l['Nome do responsável'] || "").toLowerCase();
         return u.includes(term) || m.includes(term) || r.includes(term);
       });
 
@@ -488,7 +473,7 @@
     }
 
     function abrirModalEditarLead(unidadeNome) {
-      const lead = leadsCache.find(l => (l.Unidade || l.Escola || l.Nome) === unidadeNome);
+      const lead = leadsCache.find(l => (l.Unidade || l.Escola || Object.values(l)[0]) === unidadeNome);
       if (!lead) return;
 
       document.getElementById('crmForm').reset();
