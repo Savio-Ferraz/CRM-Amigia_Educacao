@@ -3,175 +3,388 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRM Amig.IA Educação</title>
+  <title>CRM Amigia Educação</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-slate-100 min-h-screen p-4 md:p-8">
-  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6">
-    <div class="flex items-center justify-between border-b pb-4 mb-6">
-      <h1 class="text-2xl font-bold text-slate-800">CRM Amig.IA — Gestão de Leads</h1>
-      <button onclick="carregarLeads()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-lg text-sm transition">
-        🔄 Atualizar Lista
-      </button>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
+
+  <!-- BARRA LATERAL (SIDEBAR) -->
+  <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex">
+    <div>
+      <!-- Header da Sidebar -->
+      <div class="p-5 border-b border-slate-800 flex items-center gap-3">
+        <img src="logo.png" alt="Logo Amigia" class="h-10 w-auto object-contain bg-white rounded-lg p-1" onerror="this.src='https://via.placeholder.com/40'">
+        <div>
+          <h1 class="font-bold text-white text-base leading-tight">Amigia</h1>
+          <p class="text-xs text-slate-400">EDUCAÇÃO</p>
+        </div>
+      </div>
+
+      <!-- Menu de Navegação -->
+      <nav class="p-4 space-y-1 text-sm font-medium">
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white shadow-sm">
+          <i class="fa-solid fa-chart-line w-5"></i>
+          <span>CRM / Prospecção</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
+          <i class="fa-solid fa-graduation-cap w-5"></i>
+          <span>Escolas Mapeadas</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
+          <i class="fa-solid fa-calendar-check w-5"></i>
+          <span>Reuniões Agendadas</span>
+        </a>
+      </nav>
     </div>
 
-    <!-- Seletor de Lead Existente -->
-    <div class="mb-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
-      <label class="block text-sm font-semibold text-slate-700 mb-2">Buscar Lead para Atualizar:</label>
-      <select id="selectLead" onchange="preencherFormularioComLeadExistente()" class="w-full border-slate-300 rounded-lg shadow-sm p-2 bg-white border">
-        <option value="">-- Cadastrar Novo Lead --</option>
-      </select>
+    <!-- Usuário no Rodapé da Sidebar -->
+    <div class="p-4 border-t border-slate-800 flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
+        SF
+      </div>
+      <div>
+        <p class="text-xs font-semibold text-white">Savio Ferraz</p>
+        <p class="text-[10px] text-slate-400">Amigia Educação</p>
+      </div>
     </div>
+  </aside>
 
-    <!-- Formulário do Lead -->
-    <form id="crmForm" onsubmit="salvarLead(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Unidade / Nome da Escola *</label>
-        <input type="text" id="Unidade" required class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
+  <!-- ÁREA PRINCIPAL -->
+  <main class="flex-1 flex flex-col overflow-y-auto">
+
+    <!-- BARRA SUPERIOR (HEADER) -->
+    <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+      <div class="flex items-center gap-4 flex-1 max-w-md">
+        <div class="relative w-full">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
+          <input type="text" id="searchInput" onkeyup="filtrarLeads()" placeholder="Buscar por escola, município, responsável..." class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
       </div>
 
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Segmento</label>
-        <input type="text" id="Segmento" value="Educação" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Nome do Responsável</label>
-        <input type="text" id="Nome do responsável" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Cargo</label>
-        <input type="text" id="Cargo" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Modalidade</label>
-        <select id="Modalidade" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-          <option value="Particular">Particular</option>
-          <option value="Pública">Pública</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Município</label>
-        <input type="text" id="Município" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Telefone / WhatsApp</label>
-        <input type="text" id="Telefone/WhatsApp" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">E-mail</label>
-        <input type="email" id="E-mail" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Status da Prospecção</label>
-        <select id="Status" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300 font-semibold text-blue-600">
-          <option value="Não iniciado">Não iniciado</option>
-          <option value="Mensagem Enviada">Mensagem Enviada</option>
-          <option value="Em andamento">Em andamento</option>
-          <option value="Reunião Agendada">Reunião Agendada</option>
-          <option value="Proposta enviada">Proposta enviada</option>
-          <option value="Fechado">Fechado</option>
-          <option value="Perdido">Perdido</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Potencial</label>
-        <select id="Potencial" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-          <option value="Grande">Grande</option>
-          <option value="Médio">Médio</option>
-          <option value="Baixo">Baixo</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Reunião Realizada?</label>
-        <select id="Reunião Realizada?" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-          <option value="Não">Não</option>
-          <option value="Sim">Sim</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Origem do Lead</label>
-        <input type="text" id="Origem do lead" value="Google Maps" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Instagram</label>
-        <input type="text" id="Instagram" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Site</label>
-        <input type="text" id="Site" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div class="md:col-span-2">
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Endereço Completo</label>
-        <input type="text" id="Endereço" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300">
-      </div>
-
-      <div class="md:col-span-2">
-        <label class="block text-xs font-semibold text-slate-600 uppercase">Observações / Histórico de Interações</label>
-        <textarea id="Observações" rows="3" class="w-full border rounded-lg p-2 mt-1 text-sm border-slate-300"></textarea>
-      </div>
-
-      <div class="md:col-span-2 mt-4">
-        <button type="submit" id="btnSalvar" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow-lg transition">
-          💾 Salvar / Atualizar Lead
+      <div class="flex items-center gap-3">
+        <button onclick="carregarLeads()" class="px-3.5 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 text-sm font-semibold transition flex items-center gap-2">
+          <i class="fa-solid fa-arrows-rotate"></i>
+          <span>Atualizar</span>
+        </button>
+        <button onclick="abrirModalNovoLead()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow-sm transition flex items-center gap-2">
+          <i class="fa-solid fa-plus"></i>
+          <span>Incluir Oportunidade</span>
         </button>
       </div>
-    </form>
+    </header>
+
+    <!-- CONTEÚDO DO DASHBOARD -->
+    <div class="p-6 space-y-6 max-w-7xl mx-auto w-full">
+
+      <!-- TÍTULO DA PÁGINA -->
+      <div>
+        <h2 class="text-2xl font-bold text-slate-800">Oportunidades & Leads</h2>
+        <p class="text-sm text-slate-500">Gerencie a prospecção de escolas públicas e particulares conectadas à sua base.</p>
+      </div>
+
+      <!-- CARDS DE MÉTRICAS -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-building-columns"></i>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-slate-400 uppercase">Total de Leads</p>
+            <p id="metricTotal" class="text-2xl font-bold text-slate-800">0</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-paper-plane"></i>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-slate-400 uppercase">Mensagem Enviada</p>
+            <p id="metricEnviados" class="text-2xl font-bold text-slate-800">0</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-calendar-days"></i>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-slate-400 uppercase">Reuniões / Propostas</p>
+            <p id="metricReunioes" class="text-2xl font-bold text-slate-800">0</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-slate-400 uppercase">Fechados</p>
+            <p id="metricFechados" class="text-2xl font-bold text-slate-800">0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABELA DE RESULTADO DE LEADS -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+          <h3 class="font-bold text-slate-700 text-sm">Resultado de Leads Mapeados</h3>
+          <span id="leadsCountLabel" class="text-xs font-semibold bg-slate-200 text-slate-600 px-2.5 py-1 rounded-full">0 cadastrados</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-slate-100 text-xs text-slate-500 uppercase font-semibold border-b border-slate-200">
+              <tr>
+                <th class="p-3.5">Escola / Unidade</th>
+                <th class="p-3.5">Modalidade</th>
+                <th class="p-3.5">Município</th>
+                <th class="p-3.5">Contato / WhatsApp</th>
+                <th class="p-3.5">Status</th>
+                <th class="p-3.5">Potencial</th>
+                <th class="p-3.5 text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody" class="divide-y divide-slate-200 font-medium">
+              <tr>
+                <td colspan="7" class="p-8 text-center text-slate-400">Carregando leads da base...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL DE FORMULÁRIO (NOVO LEAD OU EDITAR LEAD) -->
+  <div id="leadModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
+    <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6">
+      
+      <!-- Cabeçalho do Modal -->
+      <div class="flex items-center justify-between border-b pb-4">
+        <div>
+          <h3 id="modalTitle" class="text-xl font-bold text-slate-800">Cadastrar Novo Lead</h3>
+          <p id="modalSubtitle" class="text-xs text-slate-500">Preencha as informações para registrar na base de dados.</p>
+        </div>
+        <button onclick="fecharModal()" class="text-slate-400 hover:text-slate-600 text-lg p-2">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Formulário -->
+      <form id="crmForm" onsubmit="salvarLead(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div class="md:col-span-2">
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Unidade / Nome da Escola *</label>
+          <input type="text" id="Unidade" required class="w-full border rounded-lg p-2.5 border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Segmento</label>
+          <input type="text" id="Segmento" value="Educação" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Nome do Responsável</label>
+          <input type="text" id="Nome do responsável" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Cargo</label>
+          <input type="text" id="Cargo" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Modalidade</label>
+          <select id="Modalidade" class="w-full border rounded-lg p-2.5 border-slate-300">
+            <option value="Particular">Particular</option>
+            <option value="Pública">Pública</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Município</label>
+          <input type="text" id="Município" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Telefone / WhatsApp</label>
+          <input type="text" id="Telefone/WhatsApp" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">E-mail</label>
+          <input type="email" id="E-mail" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Status da Prospecção</label>
+          <select id="Status" class="w-full border rounded-lg p-2.5 border-slate-300 font-semibold text-blue-600">
+            <option value="Não iniciado">Não iniciado</option>
+            <option value="Mensagem Enviada">Mensagem Enviada</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Reunião Agendada">Reunião Agendada</option>
+            <option value="Proposta enviada">Proposta enviada</option>
+            <option value="Fechado">Fechado</option>
+            <option value="Perdido">Perdido</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Potencial</label>
+          <select id="Potencial" class="w-full border rounded-lg p-2.5 border-slate-300">
+            <option value="Grande">Grande</option>
+            <option value="Médio">Médio</option>
+            <option value="Baixo">Baixo</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Reunião Realizada?</label>
+          <select id="Reunião Realizada?" class="w-full border rounded-lg p-2.5 border-slate-300">
+            <option value="Não">Não</option>
+            <option value="Sim">Sim</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Origem do Lead</label>
+          <input type="text" id="Origem do lead" value="Google Maps" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Instagram</label>
+          <input type="text" id="Instagram" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Site</label>
+          <input type="text" id="Site" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Endereço Completo</label>
+          <input type="text" id="Endereço" class="w-full border rounded-lg p-2.5 border-slate-300">
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Observações / Histórico de Interações</label>
+          <textarea id="Observações" rows="3" class="w-full border rounded-lg p-2.5 border-slate-300"></textarea>
+        </div>
+
+        <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t">
+          <button type="button" onclick="fecharModal()" class="px-4 py-2 border rounded-lg text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+          <button type="submit" id="btnSalvar" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-sm transition">
+            💾 Salvar Oportunidade
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
+  <!-- SCRIPT JS DE LÓGICA -->
   <script>
-    // Cole aqui a URL do seu Apps Script (obtida no Passo 1)
+    // URL da API do Google Apps Script
     const API_URL = "https://script.google.com/macros/s/AKfycbxabtEapcy0UpIpY8U0Kjl2FzUnQniJzX5gmiEDz0q2qi7djmMAGDJWS0yfwq0NYsCSDA/exec";
     let leadsCache = [];
 
     async function carregarLeads() {
+      const tbody = document.getElementById('leadsTableBody');
+      tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando dados da planilha...</td></tr>';
+
       try {
         const res = await fetch(API_URL);
         leadsCache = await res.json();
-        const select = document.getElementById('selectLead');
-        select.innerHTML = '<option value="">-- Cadastrar Novo Lead --</option>';
-        
-        leadsCache.forEach(lead => {
-          if (lead.Unidade) {
-            const opt = document.createElement('option');
-            opt.value = lead.Unidade;
-            opt.textContent = `${lead.Unidade} (${lead.Status || 'Sem status'})`;
-            select.appendChild(opt);
-          }
-        });
+        renderizarTabela(leadsCache);
+        atualizarMetricas(leadsCache);
       } catch (err) {
-        console.error("Erro ao carregar leads:", err);
+        tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-red-500">Erro ao carregar dados. Verifique a conexão com a API.</td></tr>';
       }
     }
 
-    function preencherFormularioComLeadExistente() {
-      const selectedUnidade = document.getElementById('selectLead').value;
-      const form = document.getElementById('crmForm');
-      
-      if (!selectedUnidade) {
-        form.reset();
+    function renderizarTabela(leads) {
+      const tbody = document.getElementById('leadsTableBody');
+      document.getElementById('leadsCountLabel').textContent = `${leads.length} cadastrados`;
+
+      if (!leads || leads.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400">Nenhum lead encontrado.</td></tr>';
         return;
       }
 
-      const lead = leadsCache.find(l => l.Unidade === selectedUnidade);
-      if (lead) {
-        Object.keys(lead).forEach(key => {
-          const field = document.getElementById(key);
-          if (field) field.value = lead[key] || '';
-        });
-      }
+      tbody.innerHTML = '';
+      leads.forEach((lead) => {
+        if (!lead.Unidade) return;
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition cursor-pointer";
+        
+        let statusColor = "bg-slate-100 text-slate-700";
+        if (lead.Status === "Mensagem Enviada") statusColor = "bg-amber-100 text-amber-800";
+        if (lead.Status === "Reunião Agendada" || lead.Status === "Proposta enviada") statusColor = "bg-purple-100 text-purple-800";
+        if (lead.Status === "Fechado") statusColor = "bg-emerald-100 text-emerald-800";
+
+        tr.innerHTML = `
+          <td class="p-3.5 font-bold text-slate-800">${lead.Unidade}</td>
+          <td class="p-3.5">${lead.Modalidade || '-'}</td>
+          <td class="p-3.5">${lead.Município || '-'}</td>
+          <td class="p-3.5 text-xs">${lead['Telefone/WhatsApp'] || '-'}</td>
+          <td class="p-3.5"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${statusColor}">${lead.Status || 'Novo'}</span></td>
+          <td class="p-3.5 text-xs font-semibold">${lead.Potencial || '-'}</td>
+          <td class="p-3.5 text-center">
+            <button onclick="abrirModalEditarLead('${lead.Unidade}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Editar Lead">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function atualizarMetricas(leads) {
+      document.getElementById('metricTotal').textContent = leads.length;
+      document.getElementById('metricEnviados').textContent = leads.filter(l => l.Status === 'Mensagem Enviada').length;
+      document.getElementById('metricReunioes').textContent = leads.filter(l => l.Status === 'Reunião Agendada' || l.Status === 'Proposta enviada').length;
+      document.getElementById('metricFechados').textContent = leads.filter(l => l.Status === 'Fechado').length;
+    }
+
+    function filtrarLeads() {
+      const term = document.getElementById('searchInput').value.toLowerCase();
+      const filtrados = leadsCache.filter(l => 
+        (l.Unidade && l.Unidade.toLowerCase().includes(term)) ||
+        (l.Município && l.Município.toLowerCase().includes(term)) ||
+        (l['Nome do responsável'] && l['Nome do responsável'].toLowerCase().includes(term))
+      );
+      renderizarTabela(filtrados);
+    }
+
+    function abrirModalNovoLead() {
+      document.getElementById('crmForm').reset();
+      document.getElementById('Unidade').readOnly = false;
+      document.getElementById('modalTitle').textContent = "Cadastrar Novo Lead";
+      document.getElementById('modalSubtitle').textContent = "Preencha as informações para registrar um novo lead do zero.";
+      document.getElementById('leadModal').classList.remove('hidden');
+    }
+
+    function abrirModalEditarLead(unidadeNome) {
+      const lead = leadsCache.find(l => l.Unidade === unidadeNome);
+      if (!lead) return;
+
+      document.getElementById('crmForm').reset();
+      
+      Object.keys(lead).forEach(key => {
+        const field = document.getElementById(key);
+        if (field) field.value = lead[key] || '';
+      });
+
+      document.getElementById('Unidade').readOnly = true;
+      document.getElementById('modalTitle').textContent = "Editar Lead — " + lead.Unidade;
+      document.getElementById('modalSubtitle').textContent = "Altere os status e observações para atualizar na planilha.";
+      document.getElementById('leadModal').classList.remove('hidden');
+    }
+
+    function fecharModal() {
+      document.getElementById('leadModal').classList.add('hidden');
     }
 
     async function salvarLead(e) {
@@ -203,17 +416,16 @@
         });
 
         alert("✅ Lead salvo/atualizado com sucesso!");
-        document.getElementById('crmForm').reset();
+        fecharModal();
         carregarLeads();
       } catch (err) {
-        alert("❌ Erro ao salvar o lead: " + err);
+        alert("❌ Erro ao salvar: " + err);
       } finally {
         btn.disabled = false;
-        btn.textContent = "💾 Salvar / Atualizar Lead";
+        btn.textContent = "💾 Salvar Oportunidade";
       }
     }
 
-    // Carrega a lista de escolas ao abrir o site
     window.onload = carregarLeads;
   </script>
 </body>
