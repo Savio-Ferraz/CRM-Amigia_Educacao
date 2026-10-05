@@ -10,11 +10,11 @@
 <body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
 
   <!-- BARRA LATERAL (SIDEBAR) -->
-  <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex">
+  <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex shrink-0">
     <div>
-      <!-- Header da Sidebar -->
+      <!-- Header da Sidebar com Logo Vetorizada Oficial -->
       <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1.5 shadow-sm shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1.5 shadow-md shrink-0">
           <svg viewBox="0 0 512 512" class="w-full h-full">
             <path fill="#e53e3e" d="M256 120c-30-45-80-70-130-70-75 0-126 55-126 130 0 95 110 185 256 282 146-97 256-187 256-282 0-75-51-130-126-130-50 0-100 25-130 70z" />
             <path fill="#3182ce" d="M256 462C110 365 0 275 0 180c0-40 15-75 40-100l216 382z" opacity="0.3"/>
@@ -24,7 +24,7 @@
         </div>
         <div>
           <h1 class="font-extrabold text-white text-lg tracking-tight leading-none">Amigia</h1>
-          <p class="text-[11px] font-bold text-blue-400 tracking-widest mt-0.5 uppercase">EDUCAÇÃO</p>
+          <p class="text-[11px] font-bold text-blue-400 tracking-widest mt-1 uppercase">EDUCAÇÃO</p>
         </div>
       </div>
 
@@ -45,19 +45,24 @@
       </nav>
     </div>
 
-    <!-- USUÁRIO / SELETOR DE PERFIL -->
+    <!-- RODAPÉ PERFIL REESTRUTURADO E ALINHADO -->
     <div class="p-4 border-t border-slate-800">
-      <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Perfil Ativo (Assinatura)</label>
-      <div class="flex items-center gap-3 bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/60">
-        <div id="userAvatar" class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-inner">
+      <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Perfil Ativo (Assinatura)</p>
+      
+      <div class="flex items-center gap-3 bg-slate-800/90 p-2.5 rounded-xl border border-slate-700/80 shadow-sm">
+        <div id="userAvatar" class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner">
           SF
         </div>
-        <div class="flex-1 min-w-0">
-          <select id="selectPerfil" onchange="alternarPerfil()" class="bg-transparent text-xs font-bold text-white w-full focus:outline-none cursor-pointer">
-            <option value="Savio Ferraz (Diretor)" class="bg-slate-900 text-white">Savio Ferraz</option>
-            <option value="Lucas Silva (Gerente de Marketing)" class="bg-slate-900 text-white">Lucas Silva</option>
-          </select>
-          <p id="userCargo" class="text-[10px] text-slate-400 truncate mt-0.5">Diretor</p>
+        
+        <div class="flex-1 min-w-0 flex flex-col justify-center">
+          <div class="relative flex items-center">
+            <select id="selectPerfil" onchange="alternarPerfil()" class="w-full bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer appearance-none pr-4 z-10 leading-snug">
+              <option value="Savio Ferraz (Diretor)" class="bg-slate-900 text-white">Savio Ferraz</option>
+              <option value="Lucas Silva (Gerente de Marketing)" class="bg-slate-900 text-white">Lucas Silva</option>
+            </select>
+            <i class="fa-solid fa-chevron-down absolute right-0 text-[10px] text-slate-400 pointer-events-none"></i>
+          </div>
+          <span id="userCargo" class="text-[11px] text-slate-400 font-medium leading-none mt-1">Diretor</span>
         </div>
       </div>
     </div>
@@ -90,7 +95,6 @@
     <!-- CONTEÚDO DO DASHBOARD -->
     <div class="p-6 space-y-6 max-w-7xl mx-auto w-full">
 
-      <!-- TÍTULO DA PÁGINA -->
       <div>
         <h2 class="text-2xl font-bold text-slate-800">Oportunidades & Leads</h2>
         <p class="text-sm text-slate-500">Gerencie a prospecção de escolas públicas e particulares conectadas à sua base de dados.</p>
@@ -183,7 +187,6 @@
   <div id="leadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 my-auto">
       
-      <!-- Cabeçalho do Modal -->
       <div class="flex items-center justify-between border-b pb-4">
         <div>
           <h3 id="modalTitle" class="text-xl font-bold text-slate-800">Cadastrar Novo Lead</h3>
@@ -194,7 +197,6 @@
         </button>
       </div>
 
-      <!-- Formulário -->
       <form id="crmForm" onsubmit="salvarLead(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
         <div class="md:col-span-2">
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Unidade / Nome da Escola *</label>
@@ -316,16 +318,17 @@
 
       if (perfil.includes("Savio")) {
         avatar.textContent = "SF";
-        avatar.className = "w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-inner";
+        avatar.className = "w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner";
         cargo.textContent = "Diretor";
       } else {
         avatar.textContent = "LS";
-        avatar.className = "w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-inner";
+        avatar.className = "w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner";
         cargo.textContent = "Gerente de Marketing";
       }
     }
 
-    async function carregarLeads() {
+    // Carregamento via JSONP para contornar bloqueios de CORS do Google Apps Script
+    function carregarLeads() {
       const tbody = document.getElementById('leadsTableBody');
       const icon = document.getElementById('btnRefreshIcon');
       if (icon) icon.classList.add('fa-spin');
@@ -335,33 +338,44 @@
           <td colspan="7" class="p-12 text-center text-slate-400">
             <div class="flex flex-col items-center justify-center gap-2">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
-              <span>Buscando dados da base de mapeamento...</span>
+              <span>Carregando dados da base de mapeamento...</span>
             </div>
           </td>
         </tr>`;
 
-      try {
-        const res = await fetch(API_URL, { redirect: "follow" });
-        if (!res.ok) throw new Error("Status HTTP: " + res.status);
+      // Remove script antigo se existir
+      const oldScript = document.getElementById('jsonpScript');
+      if (oldScript) oldScript.remove();
 
-        const data = await res.json();
-        leadsCache = Array.isArray(data) ? data : [];
-        renderizarTabela(leadsCache);
-        atualizarMetricas(leadsCache);
-      } catch (err) {
-        console.error("Erro na API:", err);
+      // Cria chamada JSONP
+      const script = document.createElement('script');
+      script.id = 'jsonpScript';
+      script.src = `${API_URL}?callback=processarDadosJSONP`;
+      
+      script.onerror = function() {
+        if (icon) icon.classList.remove('fa-spin');
         tbody.innerHTML = `
           <tr>
             <td colspan="7" class="p-8 text-center text-red-500 font-semibold">
               <div class="flex flex-col items-center justify-center gap-2">
                 <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
-                <span>Erro ao carregar os dados da planilha.</span>
+                <span>Erro ao carregar dados. Verifique a atualização no Apps Script.</span>
               </div>
             </td>
           </tr>`;
-      } finally {
-        if (icon) icon.classList.remove('fa-spin');
-      }
+      };
+
+      document.body.appendChild(script);
+    }
+
+    // Callback executado no retorno do JSONP
+    function processarDadosJSONP(data) {
+      const icon = document.getElementById('btnRefreshIcon');
+      if (icon) icon.classList.remove('fa-spin');
+
+      leadsCache = Array.isArray(data) ? data : [];
+      renderizarTabela(leadsCache);
+      atualizarMetricas(leadsCache);
     }
 
     function renderizarTabela(leads) {
@@ -477,7 +491,6 @@
         payload[field] = el ? el.value : '';
       });
 
-      // Adiciona no campo de Observações a assinatura automática do usuário ativo
       const obsAtual = payload["Observações"] || "";
       const notaAssinada = `[${dataHoje} - Editado por: ${perfilAtivo}]`;
       if (!obsAtual.includes(notaAssinada)) {
