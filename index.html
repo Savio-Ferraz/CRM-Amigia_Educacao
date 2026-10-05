@@ -28,24 +28,24 @@
         </div>
       </div>
 
-      <!-- Menu de Navegação -->
+      <!-- Menu de Navegação Interativo -->
       <nav class="p-4 space-y-1 text-sm font-medium">
-        <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold">
+        <button id="navAll" onclick="navegarView('all')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition">
           <i class="fa-solid fa-chart-line w-5"></i>
           <span>CRM / Prospecção</span>
-        </a>
-        <a href="#" onclick="alert('Mapeamento sincronizado com a aba Mapeamento da planilha.')" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
+        </button>
+        <button id="navMapeadas" onclick="navegarView('mapeadas')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
           <i class="fa-solid fa-graduation-cap w-5"></i>
           <span>Escolas Mapeadas</span>
-        </a>
-        <a href="#" onclick="alert('Filtre na tabela os status de Reunião Agendada.')" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
+        </button>
+        <button id="navReunioes" onclick="navegarView('reunioes')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
           <i class="fa-solid fa-calendar-check w-5"></i>
           <span>Reuniões Agendadas</span>
-        </a>
+        </button>
       </nav>
     </div>
 
-    <!-- RODAPÉ DE PERFIS -->
+    <!-- RODAPÉ PERFIL -->
     <div class="p-4 border-t border-slate-800">
       <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Perfil Ativo (Assinatura)</p>
       
@@ -97,8 +97,8 @@
     <div class="p-6 space-y-6 max-w-7xl mx-auto w-full">
 
       <div>
-        <h2 class="text-2xl font-bold text-slate-800">Oportunidades & Leads</h2>
-        <p class="text-sm text-slate-500">Gerencie a prospecção de escolas públicas e particulares conectadas à sua base de dados.</p>
+        <h2 id="pageTitle" class="text-2xl font-bold text-slate-800">Oportunidades & Leads</h2>
+        <p id="pageSubtitle" class="text-sm text-slate-500">Gerencie a prospecção de escolas públicas e particulares conectadas à sua base de dados.</p>
       </div>
 
       <!-- CARDS -->
@@ -108,7 +108,7 @@
             <i class="fa-solid fa-building-columns"></i>
           </div>
           <div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total de Leads</p>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total na Base</p>
             <p id="metricTotal" class="text-2xl font-extrabold text-slate-800">0</p>
           </div>
         </div>
@@ -149,7 +149,7 @@
         <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
           <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
             <i class="fa-solid fa-list-check text-blue-600"></i>
-            <span>Resultado de Leads Mapeados</span>
+            <span id="tableTitle">Resultado de Leads Mapeados</span>
           </h3>
           <span id="leadsCountLabel" class="text-xs font-bold bg-slate-200 text-slate-700 px-3 py-1 rounded-full">0 cadastrados</span>
         </div>
@@ -172,7 +172,7 @@
                 <td colspan="7" class="p-12 text-center text-slate-400">
                   <div class="flex flex-col items-center justify-center gap-2">
                     <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
-                    <span>Carregando dados da planilha...</span>
+                    <span>Carregando base da planilha...</span>
                   </div>
                 </td>
               </tr>
@@ -307,10 +307,11 @@
     </div>
   </div>
 
-  <!-- SCRIPT JS DE LÓGICA -->
+  <!-- SCRIPT JS -->
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxabtEapcy0UpIpY8U0Kjl2FzUnQniJzX5gmiEDz0q2qi7djmMAGDJWS0yfwq0NYsCSDA/exec";
     let leadsCache = [];
+    let currentViewFilter = 'all';
 
     function alternarPerfil() {
       const perfil = document.getElementById('selectPerfil').value;
@@ -332,6 +333,34 @@
       }
     }
 
+    function navegarView(view) {
+      currentViewFilter = view;
+      
+      const navAll = document.getElementById('navAll');
+      const navMapeadas = document.getElementById('navMapeadas');
+      const navReunioes = document.getElementById('navReunioes');
+
+      [navAll, navMapeadas, navReunioes].forEach(btn => {
+        btn.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition font-medium";
+      });
+
+      if (view === 'all') {
+        navAll.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition";
+        document.getElementById('pageTitle').textContent = "Oportunidades & Leads";
+        document.getElementById('tableTitle').textContent = "Resultado de Leads Mapeados";
+      } else if (view === 'mapeadas') {
+        navMapeadas.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition";
+        document.getElementById('pageTitle').textContent = "Escolas Mapeadas";
+        document.getElementById('tableTitle').textContent = "Todas as Escolas Mapeadas na Base";
+      } else if (view === 'reunioes') {
+        navReunioes.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition";
+        document.getElementById('pageTitle').textContent = "Reuniões & Propostas Agendadas";
+        document.getElementById('tableTitle').textContent = "Leads com Reunião Agendada ou Proposta Enviada";
+      }
+
+      filtrarLeads();
+    }
+
     function carregarLeads() {
       const tbody = document.getElementById('leadsTableBody');
       const icon = document.getElementById('btnRefreshIcon');
@@ -342,7 +371,7 @@
           <td colspan="7" class="p-12 text-center text-slate-400">
             <div class="flex flex-col items-center justify-center gap-2">
               <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
-              <span>Carregando dados da base de mapeamento...</span>
+              <span>Carregando dados da base...</span>
             </div>
           </td>
         </tr>`;
@@ -361,7 +390,7 @@
             <td colspan="7" class="p-8 text-center text-red-500 font-semibold">
               <div class="flex flex-col items-center justify-center gap-2">
                 <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
-                <span>Erro ao carregar dados. Verifique a atualização no Apps Script.</span>
+                <span>Erro ao carregar dados da planilha.</span>
               </div>
             </td>
           </tr>`;
@@ -375,20 +404,20 @@
       if (icon) icon.classList.remove('fa-spin');
 
       leadsCache = Array.isArray(data) ? data : [];
-      renderizarTabela(leadsCache);
+      filtrarLeads();
       atualizarMetricas(leadsCache);
     }
 
     function renderizarTabela(leads) {
       const tbody = document.getElementById('leadsTableBody');
-      document.getElementById('leadsCountLabel').textContent = `${leads.length} cadastrados`;
+      document.getElementById('leadsCountLabel').textContent = `${leads.length} exibidos`;
 
       if (!leads || leads.length === 0) {
         tbody.innerHTML = `
           <tr>
             <td colspan="7" class="p-12 text-center text-slate-400">
               <i class="fa-solid fa-folder-open text-2xl mb-2 block"></i>
-              Nenhum lead encontrado na base.
+              Nenhum lead encontrado para este filtro.
             </td>
           </tr>`;
         return;
@@ -432,11 +461,17 @@
 
     function filtrarLeads() {
       const term = document.getElementById('searchInput').value.toLowerCase();
-      const filtrados = leadsCache.filter(l => 
+      
+      let filtrados = leadsCache.filter(l => 
         (l.Unidade && l.Unidade.toLowerCase().includes(term)) ||
         (l.Município && l.Município.toLowerCase().includes(term)) ||
         (l['Nome do responsável'] && l['Nome do responsável'].toLowerCase().includes(term))
       );
+
+      if (currentViewFilter === 'reunioes') {
+        filtrados = filtrados.filter(l => l.Status === 'Reunião Agendada' || l.Status === 'Proposta enviada');
+      }
+
       renderizarTabela(filtrados);
     }
 
