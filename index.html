@@ -14,38 +14,51 @@
     <div>
       <!-- Header da Sidebar -->
       <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-        <img src="logo.png" alt="Logo Amigia" class="h-10 w-auto object-contain bg-white rounded-lg p-1" onerror="this.src='https://via.placeholder.com/40'">
+        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1.5 shadow-sm shrink-0">
+          <svg viewBox="0 0 512 512" class="w-full h-full">
+            <path fill="#e53e3e" d="M256 120c-30-45-80-70-130-70-75 0-126 55-126 130 0 95 110 185 256 282 146-97 256-187 256-282 0-75-51-130-126-130-50 0-100 25-130 70z" />
+            <path fill="#3182ce" d="M256 462C110 365 0 275 0 180c0-40 15-75 40-100l216 382z" opacity="0.3"/>
+            <path fill="#dd6b20" d="M382 50c-50 0-100 25-130 70 30 45 80 70 130 70 75 0 126-55 126-130 0-40-15-75-40-100z" opacity="0.4"/>
+            <path fill="#38a169" d="M126 50C51 50 0 105 0 180c0 95 110 185 256 282V120C226 75 176 50 126 50z" opacity="0.2"/>
+          </svg>
+        </div>
         <div>
-          <h1 class="font-bold text-white text-base leading-tight">Amigia</h1>
-          <p class="text-xs text-slate-400">EDUCAÇÃO</p>
+          <h1 class="font-extrabold text-white text-lg tracking-tight leading-none">Amigia</h1>
+          <p class="text-[11px] font-bold text-blue-400 tracking-widest mt-0.5 uppercase">EDUCAÇÃO</p>
         </div>
       </div>
 
       <!-- Menu de Navegação -->
       <nav class="p-4 space-y-1 text-sm font-medium">
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white shadow-sm">
+        <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold">
           <i class="fa-solid fa-chart-line w-5"></i>
           <span>CRM / Prospecção</span>
         </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
+        <a href="#" onclick="alert('Mapeamento sincronizado com a aba Mapeamento da planilha.')" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
           <i class="fa-solid fa-graduation-cap w-5"></i>
           <span>Escolas Mapeadas</span>
         </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
+        <a href="#" onclick="alert('Filtre na tabela os status de Reunião Agendada.')" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition">
           <i class="fa-solid fa-calendar-check w-5"></i>
           <span>Reuniões Agendadas</span>
         </a>
       </nav>
     </div>
 
-    <!-- Usuário no Rodapé da Sidebar -->
-    <div class="p-4 border-t border-slate-800 flex items-center gap-3">
-      <div class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
-        SF
-      </div>
-      <div>
-        <p class="text-xs font-semibold text-white">Savio Ferraz</p>
-        <p class="text-[10px] text-slate-400">Amigia Educação</p>
+    <!-- USUÁRIO / SELETOR DE PERFIL -->
+    <div class="p-4 border-t border-slate-800">
+      <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Perfil Ativo (Assinatura)</label>
+      <div class="flex items-center gap-3 bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/60">
+        <div id="userAvatar" class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-inner">
+          SF
+        </div>
+        <div class="flex-1 min-w-0">
+          <select id="selectPerfil" onchange="alternarPerfil()" class="bg-transparent text-xs font-bold text-white w-full focus:outline-none cursor-pointer">
+            <option value="Savio Ferraz (Diretor)" class="bg-slate-900 text-white">Savio Ferraz</option>
+            <option value="Lucas Silva (Gerente de Marketing)" class="bg-slate-900 text-white">Lucas Silva</option>
+          </select>
+          <p id="userCargo" class="text-[10px] text-slate-400 truncate mt-0.5">Diretor</p>
+        </div>
       </div>
     </div>
   </aside>
@@ -57,17 +70,17 @@
     <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
       <div class="flex items-center gap-4 flex-1 max-w-md">
         <div class="relative w-full">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
-          <input type="text" id="searchInput" onkeyup="filtrarLeads()" placeholder="Buscar por escola, município, responsável..." class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+          <input type="text" id="searchInput" onkeyup="filtrarLeads()" placeholder="Buscar por escola, município, responsável..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <button onclick="carregarLeads()" class="px-3.5 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 text-sm font-semibold transition flex items-center gap-2">
-          <i class="fa-solid fa-arrows-rotate"></i>
+        <button onclick="carregarLeads()" class="px-4 py-2 border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-semibold transition flex items-center gap-2">
+          <i id="btnRefreshIcon" class="fa-solid fa-arrows-rotate"></i>
           <span>Atualizar</span>
         </button>
-        <button onclick="abrirModalNovoLead()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow-sm transition flex items-center gap-2">
+        <button onclick="abrirModalNovoLead()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-sm transition flex items-center gap-2">
           <i class="fa-solid fa-plus"></i>
           <span>Incluir Oportunidade</span>
         </button>
@@ -80,75 +93,83 @@
       <!-- TÍTULO DA PÁGINA -->
       <div>
         <h2 class="text-2xl font-bold text-slate-800">Oportunidades & Leads</h2>
-        <p class="text-sm text-slate-500">Gerencie a prospecção de escolas públicas e particulares conectadas à sua base.</p>
+        <p class="text-sm text-slate-500">Gerencie a prospecção de escolas públicas e particulares conectadas à sua base de dados.</p>
       </div>
 
       <!-- CARDS DE MÉTRICAS -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-solid fa-building-columns"></i>
           </div>
           <div>
-            <p class="text-xs font-semibold text-slate-400 uppercase">Total de Leads</p>
-            <p id="metricTotal" class="text-2xl font-bold text-slate-800">0</p>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total de Leads</p>
+            <p id="metricTotal" class="text-2xl font-extrabold text-slate-800">0</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div class="w-12 h-12 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-solid fa-paper-plane"></i>
           </div>
           <div>
-            <p class="text-xs font-semibold text-slate-400 uppercase">Mensagem Enviada</p>
-            <p id="metricEnviados" class="text-2xl font-bold text-slate-800">0</p>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mensagem Enviada</p>
+            <p id="metricEnviados" class="text-2xl font-extrabold text-slate-800">0</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div class="w-12 h-12 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-xl">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-solid fa-calendar-days"></i>
           </div>
           <div>
-            <p class="text-xs font-semibold text-slate-400 uppercase">Reuniões / Propostas</p>
-            <p id="metricReunioes" class="text-2xl font-bold text-slate-800">0</p>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Reuniões / Propostas</p>
+            <p id="metricReunioes" class="text-2xl font-extrabold text-slate-800">0</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div class="w-12 h-12 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-solid fa-circle-check"></i>
           </div>
           <div>
-            <p class="text-xs font-semibold text-slate-400 uppercase">Fechados</p>
-            <p id="metricFechados" class="text-2xl font-bold text-slate-800">0</p>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Fechados</p>
+            <p id="metricFechados" class="text-2xl font-extrabold text-slate-800">0</p>
           </div>
         </div>
       </div>
 
       <!-- TABELA DE RESULTADO DE LEADS -->
-      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-          <h3 class="font-bold text-slate-700 text-sm">Resultado de Leads Mapeados</h3>
-          <span id="leadsCountLabel" class="text-xs font-semibold bg-slate-200 text-slate-600 px-2.5 py-1 rounded-full">0 cadastrados</span>
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+          <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-blue-600"></i>
+            <span>Resultado de Leads Mapeados</span>
+          </h3>
+          <span id="leadsCountLabel" class="text-xs font-bold bg-slate-200 text-slate-700 px-3 py-1 rounded-full">0 cadastrados</span>
         </div>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-slate-100 text-xs text-slate-500 uppercase font-semibold border-b border-slate-200">
+            <thead class="bg-slate-100/70 text-[11px] text-slate-500 uppercase font-bold border-b border-slate-200 tracking-wider">
               <tr>
-                <th class="p-3.5">Escola / Unidade</th>
-                <th class="p-3.5">Modalidade</th>
-                <th class="p-3.5">Município</th>
-                <th class="p-3.5">Contato / WhatsApp</th>
-                <th class="p-3.5">Status</th>
-                <th class="p-3.5">Potencial</th>
-                <th class="p-3.5 text-center">Ações</th>
+                <th class="p-4">Escola / Unidade</th>
+                <th class="p-4">Modalidade</th>
+                <th class="p-4">Município</th>
+                <th class="p-4">Contato / WhatsApp</th>
+                <th class="p-4">Status</th>
+                <th class="p-4">Potencial</th>
+                <th class="p-4 text-center">Ações</th>
               </tr>
             </thead>
             <tbody id="leadsTableBody" class="divide-y divide-slate-200 font-medium">
               <tr>
-                <td colspan="7" class="p-8 text-center text-slate-400">Carregando leads da base...</td>
+                <td colspan="7" class="p-12 text-center text-slate-400">
+                  <div class="flex flex-col items-center justify-center gap-2">
+                    <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
+                    <span>Conectando e carregando dados da planilha...</span>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -158,9 +179,9 @@
     </div>
   </main>
 
-  <!-- MODAL DE FORMULÁRIO (NOVO LEAD OU EDITAR LEAD) -->
-  <div id="leadModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
-    <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6">
+  <!-- MODAL DE FORMULÁRIO -->
+  <div id="leadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 my-auto">
       
       <!-- Cabeçalho do Modal -->
       <div class="flex items-center justify-between border-b pb-4">
@@ -168,7 +189,7 @@
           <h3 id="modalTitle" class="text-xl font-bold text-slate-800">Cadastrar Novo Lead</h3>
           <p id="modalSubtitle" class="text-xs text-slate-500">Preencha as informações para registrar na base de dados.</p>
         </div>
-        <button onclick="fecharModal()" class="text-slate-400 hover:text-slate-600 text-lg p-2">
+        <button onclick="fecharModal()" class="text-slate-400 hover:text-slate-600 text-lg p-2 rounded-lg hover:bg-slate-100 transition">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -177,27 +198,27 @@
       <form id="crmForm" onsubmit="salvarLead(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
         <div class="md:col-span-2">
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Unidade / Nome da Escola *</label>
-          <input type="text" id="Unidade" required class="w-full border rounded-lg p-2.5 border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <input type="text" id="Unidade" required class="w-full border rounded-xl p-2.5 border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Segmento</label>
-          <input type="text" id="Segmento" value="Educação" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="text" id="Segmento" value="Educação" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Nome do Responsável</label>
-          <input type="text" id="Nome do responsável" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="text" id="Nome do responsável" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Cargo</label>
-          <input type="text" id="Cargo" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="text" id="Cargo" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Modalidade</label>
-          <select id="Modalidade" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <select id="Modalidade" class="w-full border rounded-xl p-2.5 border-slate-300">
             <option value="Particular">Particular</option>
             <option value="Pública">Pública</option>
           </select>
@@ -205,22 +226,22 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Município</label>
-          <input type="text" id="Município" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="text" id="Município" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Telefone / WhatsApp</label>
-          <input type="text" id="Telefone/WhatsApp" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="text" id="Telefone/WhatsApp" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">E-mail</label>
-          <input type="email" id="E-mail" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="email" id="E-mail" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Status da Prospecção</label>
-          <select id="Status" class="w-full border rounded-lg p-2.5 border-slate-300 font-semibold text-blue-600">
+          <select id="Status" class="w-full border rounded-xl p-2.5 border-slate-300 font-bold text-blue-600">
             <option value="Não iniciado">Não iniciado</option>
             <option value="Mensagem Enviada">Mensagem Enviada</option>
             <option value="Em andamento">Em andamento</option>
@@ -233,7 +254,7 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Potencial</label>
-          <select id="Potencial" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <select id="Potencial" class="w-full border rounded-xl p-2.5 border-slate-300">
             <option value="Grande">Grande</option>
             <option value="Médio">Médio</option>
             <option value="Baixo">Baixo</option>
@@ -242,7 +263,7 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Reunião Realizada?</label>
-          <select id="Reunião Realizada?" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <select id="Reunião Realizada?" class="w-full border rounded-xl p-2.5 border-slate-300">
             <option value="Não">Não</option>
             <option value="Sim">Sim</option>
           </select>
@@ -250,32 +271,32 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Origem do Lead</label>
-          <input type="text" id="Origem do lead" value="Google Maps" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="text" id="Origem do lead" value="Google Maps" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Instagram</label>
-          <input type="text" id="Instagram" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="text" id="Instagram" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Site</label>
-          <input type="text" id="Site" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="text" id="Site" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div class="md:col-span-2">
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Endereço Completo</label>
-          <input type="text" id="Endereço" class="w-full border rounded-lg p-2.5 border-slate-300">
+          <input type="text" id="Endereço" class="w-full border rounded-xl p-2.5 border-slate-300">
         </div>
 
         <div class="md:col-span-2">
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Observações / Histórico de Interações</label>
-          <textarea id="Observações" rows="3" class="w-full border rounded-lg p-2.5 border-slate-300"></textarea>
+          <textarea id="Observações" rows="3" class="w-full border rounded-xl p-2.5 border-slate-300"></textarea>
         </div>
 
         <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t">
-          <button type="button" onclick="fecharModal()" class="px-4 py-2 border rounded-lg text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
-          <button type="submit" id="btnSalvar" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-sm transition">
+          <button type="button" onclick="fecharModal()" class="px-5 py-2.5 border rounded-xl text-slate-600 font-semibold hover:bg-slate-50 transition">Cancelar</button>
+          <button type="submit" id="btnSalvar" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition">
             💾 Salvar Oportunidade
           </button>
         </div>
@@ -285,21 +306,61 @@
 
   <!-- SCRIPT JS DE LÓGICA -->
   <script>
-    // URL da API do Google Apps Script
     const API_URL = "https://script.google.com/macros/s/AKfycbxabtEapcy0UpIpY8U0Kjl2FzUnQniJzX5gmiEDz0q2qi7djmMAGDJWS0yfwq0NYsCSDA/exec";
     let leadsCache = [];
 
+    function alternarPerfil() {
+      const perfil = document.getElementById('selectPerfil').value;
+      const avatar = document.getElementById('userAvatar');
+      const cargo = document.getElementById('userCargo');
+
+      if (perfil.includes("Savio")) {
+        avatar.textContent = "SF";
+        avatar.className = "w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-inner";
+        cargo.textContent = "Diretor";
+      } else {
+        avatar.textContent = "LS";
+        avatar.className = "w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-inner";
+        cargo.textContent = "Gerente de Marketing";
+      }
+    }
+
     async function carregarLeads() {
       const tbody = document.getElementById('leadsTableBody');
-      tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando dados da planilha...</td></tr>';
+      const icon = document.getElementById('btnRefreshIcon');
+      if (icon) icon.classList.add('fa-spin');
+
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" class="p-12 text-center text-slate-400">
+            <div class="flex flex-col items-center justify-center gap-2">
+              <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
+              <span>Buscando dados da base de mapeamento...</span>
+            </div>
+          </td>
+        </tr>`;
 
       try {
-        const res = await fetch(API_URL);
-        leadsCache = await res.json();
+        const res = await fetch(API_URL, { redirect: "follow" });
+        if (!res.ok) throw new Error("Status HTTP: " + res.status);
+
+        const data = await res.json();
+        leadsCache = Array.isArray(data) ? data : [];
         renderizarTabela(leadsCache);
         atualizarMetricas(leadsCache);
       } catch (err) {
-        tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-red-500">Erro ao carregar dados. Verifique a conexão com a API.</td></tr>';
+        console.error("Erro na API:", err);
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="p-8 text-center text-red-500 font-semibold">
+              <div class="flex flex-col items-center justify-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
+                <span>Erro ao carregar os dados da planilha.</span>
+              </div>
+            </td>
+          </tr>`;
+      } finally {
+        if (icon) icon.classList.remove('fa-spin');
       }
     }
 
@@ -308,7 +369,13 @@
       document.getElementById('leadsCountLabel').textContent = `${leads.length} cadastrados`;
 
       if (!leads || leads.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400">Nenhum lead encontrado.</td></tr>';
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="p-12 text-center text-slate-400">
+              <i class="fa-solid fa-folder-open text-2xl mb-2 block"></i>
+              Nenhum lead encontrado na base.
+            </td>
+          </tr>`;
         return;
       }
 
@@ -317,22 +384,22 @@
         if (!lead.Unidade) return;
 
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 transition cursor-pointer";
+        tr.className = "hover:bg-slate-50/80 transition cursor-pointer";
         
         let statusColor = "bg-slate-100 text-slate-700";
-        if (lead.Status === "Mensagem Enviada") statusColor = "bg-amber-100 text-amber-800";
-        if (lead.Status === "Reunião Agendada" || lead.Status === "Proposta enviada") statusColor = "bg-purple-100 text-purple-800";
-        if (lead.Status === "Fechado") statusColor = "bg-emerald-100 text-emerald-800";
+        if (lead.Status === "Mensagem Enviada") statusColor = "bg-amber-100 text-amber-800 border border-amber-200";
+        if (lead.Status === "Reunião Agendada" || lead.Status === "Proposta enviada") statusColor = "bg-purple-100 text-purple-800 border border-purple-200";
+        if (lead.Status === "Fechado") statusColor = "bg-emerald-100 text-emerald-800 border border-emerald-200";
 
         tr.innerHTML = `
-          <td class="p-3.5 font-bold text-slate-800">${lead.Unidade}</td>
-          <td class="p-3.5">${lead.Modalidade || '-'}</td>
-          <td class="p-3.5">${lead.Município || '-'}</td>
-          <td class="p-3.5 text-xs">${lead['Telefone/WhatsApp'] || '-'}</td>
-          <td class="p-3.5"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${statusColor}">${lead.Status || 'Novo'}</span></td>
-          <td class="p-3.5 text-xs font-semibold">${lead.Potencial || '-'}</td>
-          <td class="p-3.5 text-center">
-            <button onclick="abrirModalEditarLead('${lead.Unidade}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Editar Lead">
+          <td class="p-4 font-bold text-slate-800">${lead.Unidade}</td>
+          <td class="p-4">${lead.Modalidade || '-'}</td>
+          <td class="p-4">${lead.Município || '-'}</td>
+          <td class="p-4 text-xs font-medium">${lead['Telefone/WhatsApp'] || '-'}</td>
+          <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${statusColor}">${lead.Status || 'Novo'}</span></td>
+          <td class="p-4 text-xs font-bold text-slate-600">${lead.Potencial || '-'}</td>
+          <td class="p-4 text-center">
+            <button onclick="abrirModalEditarLead('${lead.Unidade.replace(/'/g, "\\'")}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Editar Lead">
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
           </td>
@@ -393,6 +460,9 @@
       btn.disabled = true;
       btn.textContent = "⏳ Salvando...";
 
+      const perfilAtivo = document.getElementById('selectPerfil').value;
+      const dataHoje = new Date().toLocaleDateString('pt-BR');
+
       const fields = [
         "Unidade", "Segmento", "Nome do responsável", "Cargo", "Modalidade",
         "Município", "Telefone/WhatsApp", "E-mail", "Instagram", "Site",
@@ -407,6 +477,13 @@
         payload[field] = el ? el.value : '';
       });
 
+      // Adiciona no campo de Observações a assinatura automática do usuário ativo
+      const obsAtual = payload["Observações"] || "";
+      const notaAssinada = `[${dataHoje} - Editado por: ${perfilAtivo}]`;
+      if (!obsAtual.includes(notaAssinada)) {
+        payload["Observações"] = (obsAtual ? obsAtual + "\n" : "") + notaAssinada;
+      }
+
       try {
         await fetch(API_URL, {
           method: 'POST',
@@ -415,7 +492,7 @@
           body: JSON.stringify(payload)
         });
 
-        alert("✅ Lead salvo/atualizado com sucesso!");
+        alert(`✅ Oportunidade salva com sucesso por ${perfilAtivo}!`);
         fecharModal();
         carregarLeads();
       } catch (err) {
