@@ -3,277 +3,329 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRM Amigia Educação</title>
+  <title>CRM | Amigia Educação</title>
   <link rel="icon" href="logo.png" type="image/png">
+  
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <!-- Chart.js para Gráficos Profissionais -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .amigia-gradient {
+      background: linear-gradient(135deg, #f43f5e 0%, #f59e0b 50%, #2563eb 100%);
+    }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col h-screen overflow-hidden">
 
-  <!-- SIDEBAR LATERAL -->
-  <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex shrink-0 z-20">
-    <div>
-      <!-- Header com Logo Oficial -->
-      <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-        <img src="logo.png" alt="Amigia Educação" class="h-10 w-auto object-contain bg-white/10 rounded-xl p-1 border border-white/10 shadow-sm" onerror="this.style.display='none'">
-        <div>
-          <h1 class="font-black text-white text-xl tracking-tight leading-none">Amigia</h1>
-          <p class="text-[10px] font-bold text-sky-400 tracking-widest mt-1 uppercase">EDUCAÇÃO</p>
-        </div>
-      </div>
+  <!-- BARRA DE BRANDING AMIGIA NO TOPO -->
+  <div class="h-1 w-full amigia-gradient z-30"></div>
 
-      <!-- Navegação Principal -->
-      <nav class="p-4 space-y-1.5 text-sm font-medium">
-        <button id="navAll" onclick="navegarView('all')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition">
-          <i class="fa-solid fa-chart-line w-5 text-center"></i>
-          <span>CRM / Prospecção</span>
-        </button>
-        <button id="navMapeadas" onclick="navegarView('mapeadas')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition font-medium">
-          <i class="fa-solid fa-graduation-cap w-5 text-center"></i>
-          <span>Escolas Mapeadas</span>
-        </button>
-        <button id="navReunioes" onclick="navegarView('reunioes')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition font-medium">
-          <i class="fa-solid fa-calendar-check w-5 text-center"></i>
-          <span>Reuniões Agendadas</span>
-        </button>
-      </nav>
-    </div>
-
-    <!-- SELETOR DE PERFIL PREMIUM -->
-    <div class="p-4 border-t border-slate-800 relative">
-      <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Perfil Ativo (Assinatura)</p>
-      
-      <!-- Card Clicável -->
-      <button onclick="toggleUserMenu()" class="w-full flex items-center justify-between bg-slate-800/90 hover:bg-slate-800 p-2.5 rounded-xl border border-slate-700/80 shadow-sm transition group">
-        <div class="flex items-center gap-3 min-w-0">
-          <div id="userAvatar" class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner">
-            SF
-          </div>
-          <div class="text-left truncate">
-            <p id="userNameDisplay" class="text-xs font-bold text-white truncate leading-tight">Savio Ferraz</p>
-            <p id="userRoleDisplay" class="text-[11px] text-slate-400 font-medium leading-none mt-1">Diretor</p>
-          </div>
-        </div>
-        <i class="fa-solid fa-chevron-up text-xs text-slate-400 group-hover:text-white transition ml-2"></i>
-      </button>
-
-      <!-- Popup do Menu de Perfil -->
-      <div id="userDropdown" class="hidden absolute bottom-20 left-4 right-4 bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-2 z-50 space-y-1">
-        <div onclick="selecionarPerfil('Savio Ferraz', 'Diretor', 'SF', 'bg-blue-600')" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-700/70 cursor-pointer transition">
-          <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold">SF</div>
-          <div>
-            <p class="text-xs font-bold text-white">Savio Ferraz</p>
-            <p class="text-[10px] text-slate-400">Diretor</p>
-          </div>
-        </div>
-        <div onclick="selecionarPerfil('Lucas Silva', 'Gerente de Marketing', 'LS', 'bg-emerald-600')" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-700/70 cursor-pointer transition">
-          <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">LS</div>
-          <div>
-            <p class="text-xs font-bold text-white">Lucas Silva</p>
-            <p class="text-[10px] text-slate-400">Gerente de Marketing</p>
-          </div>
-        </div>
-        <div onclick="selecionarPerfil('Alexandre Augusto', 'Gerente de Produtos', 'AA', 'bg-purple-600')" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-700/70 cursor-pointer transition">
-          <div class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white text-xs font-bold">AA</div>
-          <div>
-            <p class="text-xs font-bold text-white">Alexandre Augusto</p>
-            <p class="text-[10px] text-slate-400">Gerente de Produtos</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ÁREA PRINCIPAL DA APLICAÇÃO -->
-  <main class="flex-1 flex flex-col overflow-y-auto">
-
-    <!-- HEADER SUPERIOR DE BUSCA E AÇÕES -->
-    <header class="bg-white border-b border-slate-200 px-6 py-4 flex flex-col md:flex-row md:items-center justify-between sticky top-0 z-10 shadow-sm gap-4">
-      <div class="flex items-center gap-3 flex-1 max-w-lg">
-        <div class="relative w-full">
-          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-          <input type="text" id="searchInput" onkeyup="filtrarLeads()" placeholder="Buscar por escola, município, responsável..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50">
-        </div>
-      </div>
-
-      <div class="flex items-center gap-3">
-        <button onclick="carregarLeads()" class="px-4 py-2 border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-semibold transition flex items-center gap-2">
-          <i id="btnRefreshIcon" class="fa-solid fa-arrows-rotate"></i>
-          <span>Atualizar Base</span>
-        </button>
-        <button onclick="abrirModalNovoLead()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-sm transition flex items-center gap-2">
-          <i class="fa-solid fa-plus"></i>
-          <span>Incluir Oportunidade</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- DASHBOARD CONTENT -->
-    <div class="p-6 space-y-6 max-w-7xl mx-auto w-full">
-
-      <!-- TÍTULO DINÂMICO -->
+  <div class="flex flex-1 overflow-hidden">
+    <!-- SIDEBAR LATERAL UNIFICADA -->
+    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex shrink-0 z-20 shadow-xl">
       <div>
-        <h2 id="pageTitle" class="text-2xl font-black text-slate-800 tracking-tight">Oportunidades & Leads</h2>
-        <p id="pageSubtitle" class="text-sm text-slate-500">Gerencie o funil de prospecção e conversão de instituições de ensino.</p>
+        <!-- Header com Logo Oficial -->
+        <div class="p-5 border-b border-slate-800 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-inner">
+            <img src="logo.png" alt="Amigia Logo" class="w-full h-full object-contain p-1" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full rounded-2xl flex items-center justify-center amigia-gradient\'><i class=\'fa-solid fa-heart text-white text-base\'></i></div>';">
+          </div>
+          <div>
+            <h1 class="font-black text-white text-xl tracking-tight leading-none">Amigia</h1>
+            <p class="text-[10px] font-bold text-sky-400 tracking-widest mt-1 uppercase">EDUCAÇÃO</p>
+          </div>
+        </div>
+
+        <!-- Navegação Principal -->
+        <nav class="p-4 space-y-1.5 text-xs font-semibold">
+          <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3 mb-2">Módulos</p>
+
+          <button id="navAll" onclick="navegarView('all')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-xs font-bold transition">
+            <i class="fa-solid fa-chart-line w-4 text-center"></i>
+            <span>CRM & Prospecção</span>
+          </button>
+          
+          <button id="navMapeadas" onclick="navegarView('mapeadas')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition font-medium">
+            <i class="fa-solid fa-graduation-cap w-4 text-center"></i>
+            <span>Escolas Mapeadas</span>
+          </button>
+          
+          <button id="navReunioes" onclick="navegarView('reunioes')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition font-medium">
+            <i class="fa-solid fa-calendar-check w-4 text-center"></i>
+            <span>Reuniões Agendadas</span>
+          </button>
+
+          <div class="pt-4 border-t border-slate-800/80 my-2">
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3 mb-2">Integrações</p>
+            <a href="https://savio-ferraz.github.io/agenda_amigia/" target="_blank" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-300 bg-slate-800/60 hover:bg-slate-800 hover:text-white border border-slate-700/50 transition">
+              <div class="flex items-center gap-3">
+                <i class="fa-solid fa-calendar-days text-amber-400 w-4 text-center"></i>
+                <span class="font-bold">Agenda Amigia</span>
+              </div>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500"></i>
+            </a>
+          </div>
+        </nav>
       </div>
 
-      <!-- CARDS DE MÉTRICAS -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
-            <i class="fa-solid fa-building-columns"></i>
+      <!-- SELETOR DE PERFIL PREMIUM -->
+      <div class="p-4 border-t border-slate-800 relative">
+        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Perfil Ativo (Assinatura)</p>
+        
+        <button onclick="toggleUserMenu()" class="w-full flex items-center justify-between bg-slate-800/90 hover:bg-slate-800 p-2.5 rounded-xl border border-slate-700/80 shadow-xs transition group">
+          <div class="flex items-center gap-3 min-w-0">
+            <div id="userAvatar" class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-inner">
+              SF
+            </div>
+            <div class="text-left truncate">
+              <p id="userNameDisplay" class="text-xs font-bold text-white truncate leading-tight">Savio Ferraz</p>
+              <p id="userRoleDisplay" class="text-[11px] text-slate-400 font-medium leading-none mt-1">Diretor</p>
+            </div>
           </div>
-          <div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total na Base</p>
-            <p id="metricTotal" class="text-2xl font-black text-slate-800">0</p>
-          </div>
-        </div>
+          <i class="fa-solid fa-chevron-up text-xs text-slate-400 group-hover:text-white transition ml-2"></i>
+        </button>
 
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
-            <i class="fa-solid fa-paper-plane"></i>
+        <!-- Dropdown de Usuários -->
+        <div id="userDropdown" class="hidden absolute bottom-20 left-4 right-4 bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-2 z-50 space-y-1">
+          <div onclick="selecionarPerfil('Savio Ferraz', 'Diretor', 'SF', 'bg-blue-600')" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-700/70 cursor-pointer transition">
+            <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold">SF</div>
+            <div>
+              <p class="text-xs font-bold text-white">Savio Ferraz</p>
+              <p class="text-[10px] text-slate-400">Diretor</p>
+            </div>
           </div>
-          <div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mensagem Enviada</p>
-            <p id="metricEnviados" class="text-2xl font-black text-slate-800">0</p>
+          <div onclick="selecionarPerfil('Lucas Silva', 'Gerente de Marketing', 'LS', 'bg-emerald-600')" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-700/70 cursor-pointer transition">
+            <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">LS</div>
+            <div>
+              <p class="text-xs font-bold text-white">Lucas Silva</p>
+              <p class="text-[10px] text-slate-400">Gerente de Marketing</p>
+            </div>
           </div>
-        </div>
-
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
-            <i class="fa-solid fa-calendar-days"></i>
-          </div>
-          <div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Reuniões / Propostas</p>
-            <p id="metricReunioes" class="text-2xl font-black text-slate-800">0</p>
-          </div>
-        </div>
-
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
-            <i class="fa-solid fa-circle-check"></i>
-          </div>
-          <div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Fechados</p>
-            <p id="metricFechados" class="text-2xl font-black text-slate-800">0</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- PAINEL DE GRÁFICOS VISUAIS -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="md:col-span-2 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
-              <i class="fa-solid fa-chart-simple text-blue-600"></i>
-              <span id="chart1Title">Distribuição por Status de Prospecção</span>
-            </h3>
-          </div>
-          <div class="h-56 relative">
-            <canvas id="mainChart"></canvas>
-          </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
-              <i class="fa-solid fa-chart-pie text-emerald-600"></i>
-              <span id="chart2Title">Modalidade das Escolas</span>
-            </h3>
-          </div>
-          <div class="h-56 relative flex items-center justify-center">
-            <canvas id="secondaryChart"></canvas>
+          <div onclick="selecionarPerfil('Alexandre Augusto', 'Gerente de Produtos', 'AA', 'bg-purple-600')" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-700/70 cursor-pointer transition">
+            <div class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white text-xs font-bold">AA</div>
+            <div>
+              <p class="text-xs font-bold text-white">Alexandre Augusto</p>
+              <p class="text-[10px] text-slate-400">Gerente de Produtos</p>
+            </div>
           </div>
         </div>
       </div>
+    </aside>
 
-      <!-- BARRA DE FILTROS AVANÇADOS -->
-      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-wrap gap-3 items-center justify-between">
-        <div class="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
-          <i class="fa-solid fa-filter text-blue-600"></i>
-          <span>Filtros Rápidos:</span>
+    <!-- ÁREA PRINCIPAL DA APLICAÇÃO -->
+    <main class="flex-1 flex flex-col overflow-y-auto bg-slate-50">
+
+      <!-- HEADER SUPERIOR DE BUSCA E AÇÕES -->
+      <header class="bg-white border-b border-slate-200/80 px-6 py-4 flex flex-col md:flex-row md:items-center justify-between sticky top-0 z-10 shadow-2xs gap-4">
+        <div class="flex items-center gap-3 flex-1 max-w-lg">
+          <div class="relative w-full">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+            <input type="text" id="searchInput" onkeyup="filtrarLeads()" placeholder="Buscar por escola, município, responsável..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition bg-slate-50 font-medium">
+          </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3 flex-1 justify-end">
-          <select id="filterStatus" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            <option value="">Todos os Status</option>
-            <option value="Não iniciado">Não iniciado</option>
-            <option value="Mensagem Enviada">Mensagem Enviada</option>
-            <option value="Em andamento">Em andamento</option>
-            <option value="Reunião Agendada">Reunião Agendada</option>
-            <option value="Proposta enviada">Proposta enviada</option>
-            <option value="Fechado">Fechado</option>
-          </select>
-
-          <select id="filterModalidade" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            <option value="">Todas Modalidades</option>
-            <option value="Particular">Particular</option>
-            <option value="Pública">Pública</option>
-          </select>
-
-          <select id="filterMunicipio" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            <option value="">Todos os Municípios</option>
-          </select>
-
-          <select id="filterPotencial" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            <option value="">Todos Potenciais</option>
-            <option value="Grande">Potencial Grande</option>
-            <option value="Médio">Potencial Médio</option>
-            <option value="Baixo">Potencial Baixo</option>
-          </select>
-
-          <button onclick="limparFiltros()" class="text-xs font-bold text-slate-400 hover:text-slate-600 px-2 py-1 transition">
-            Limpar
+        <div class="flex items-center gap-3">
+          <button onclick="carregarLeads()" class="px-4 py-2 border border-slate-200/80 rounded-xl text-slate-700 hover:bg-slate-50 text-xs font-bold transition flex items-center gap-2">
+            <i id="btnRefreshIcon" class="fa-solid fa-arrows-rotate text-xs"></i>
+            <span>Atualizar Base</span>
+          </button>
+          <a href="https://savio-ferraz.github.io/agenda_amigia/" target="_blank" class="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-2">
+            <i class="fa-solid fa-calendar-days text-xs"></i>
+            <span>Abrir Agenda</span>
+          </a>
+          <button onclick="abrirModalNovoLead()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-2">
+            <i class="fa-solid fa-plus text-xs"></i>
+            <span>Incluir Oportunidade</span>
           </button>
         </div>
-      </div>
+      </header>
 
-      <!-- TABELA DE RESULTADOS -->
-      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-        <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
-          <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-list-check text-blue-600"></i>
-            <span id="tableTitle">Resultado de Leads Mapeados</span>
-          </h3>
-          <span id="leadsCountLabel" class="text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-full">0 exibidos</span>
+      <!-- DASHBOARD CONTENT -->
+      <div class="p-6 space-y-6 max-w-7xl mx-auto w-full">
+
+        <!-- TÍTULO DINÂMICO -->
+        <div>
+          <h2 id="pageTitle" class="text-2xl font-black text-slate-900 tracking-tight">Oportunidades & Leads</h2>
+          <p id="pageSubtitle" class="text-xs text-slate-500 font-medium">Gerencie o funil de prospecção e conversão de instituições de ensino.</p>
         </div>
 
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-slate-100/70 text-[11px] text-slate-500 uppercase font-bold border-b border-slate-200 tracking-wider">
-              <tr>
-                <th class="p-4">Escola / Unidade</th>
-                <th class="p-4">Modalidade</th>
-                <th class="p-4">Município</th>
-                <th class="p-4">Contato / WhatsApp</th>
-                <th class="p-4">Status</th>
-                <th class="p-4">Potencial</th>
-                <th class="p-4 text-center">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="leadsTableBody" class="divide-y divide-slate-200 font-medium">
-              <tr>
-                <td colspan="7" class="p-12 text-center text-slate-400">
-                  <div class="flex flex-col items-center justify-center gap-2">
-                    <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
-                    <span>Sincronizando com a base de dados...</span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- CARDS DE MÉTRICAS -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total na Base</p>
+              <p id="metricTotal" class="text-2xl font-black text-slate-800">0</p>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-paper-plane"></i>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mensagem Enviada</p>
+              <p id="metricEnviados" class="text-2xl font-black text-slate-800">0</p>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-calendar-days"></i>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Reuniões / Propostas</p>
+              <p id="metricReunioes" class="text-2xl font-black text-slate-800">0</p>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Fechados</p>
+              <p id="metricFechados" class="text-2xl font-black text-slate-800">0</p>
+            </div>
+          </div>
         </div>
+
+        <!-- PAINEL DE GRÁFICOS VISUAIS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="md:col-span-2 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-700 text-xs uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-chart-simple text-blue-600"></i>
+                <span id="chart1Title">Distribuição por Status de Prospecção</span>
+              </h3>
+            </div>
+            <div class="h-56 relative">
+              <canvas id="mainChart"></canvas>
+            </div>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-700 text-xs uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-chart-pie text-emerald-600"></i>
+                <span id="chart2Title">Modalidade das Escolas</span>
+              </h3>
+            </div>
+            <div class="h-56 relative flex items-center justify-center">
+              <canvas id="secondaryChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- BARRA DE FILTROS AVANÇADOS -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex flex-wrap gap-3 items-center justify-between">
+          <div class="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+            <i class="fa-solid fa-filter text-blue-600"></i>
+            <span>Filtros Rápidos:</span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 flex-1 justify-end">
+            <select id="filterStatus" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="">Todos os Status</option>
+              <option value="Não iniciado">Não iniciado</option>
+              <option value="Mensagem Enviada">Mensagem Enviada</option>
+              <option value="Em andamento">Em andamento</option>
+              <option value="Reunião Agendada">Reunião Agendada</option>
+              <option value="Proposta enviada">Proposta enviada</option>
+              <option value="Fechado">Fechado</option>
+            </select>
+
+            <select id="filterModalidade" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="">Todas Modalidades</option>
+              <option value="Particular">Particular</option>
+              <option value="Pública">Pública</option>
+            </select>
+
+            <select id="filterMunicipio" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="">Todos os Municípios</option>
+            </select>
+
+            <select id="filterPotencial" onchange="filtrarLeads()" class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="">Todos Potenciais</option>
+              <option value="Grande">Potencial Grande</option>
+              <option value="Médio">Potencial Médio</option>
+              <option value="Baixo">Potencial Baixo</option>
+            </select>
+
+            <button onclick="limparFiltros()" class="text-xs font-bold text-slate-400 hover:text-slate-600 px-2 py-1 transition">
+              Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- TABELA DE RESULTADOS -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+          <div class="p-4 border-b border-slate-200/80 flex items-center justify-between bg-slate-50/50">
+            <h3 class="font-bold text-slate-700 text-xs uppercase tracking-wider flex items-center gap-2">
+              <i class="fa-solid fa-list-check text-blue-600"></i>
+              <span id="tableTitle">Resultado de Leads Mapeados</span>
+            </h3>
+            <span id="leadsCountLabel" class="text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-full">0 exibidos</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-600">
+              <thead class="bg-slate-100/70 text-[11px] text-slate-500 uppercase font-bold border-b border-slate-200 tracking-wider">
+                <tr>
+                  <th class="p-4">Escola / Unidade</th>
+                  <th class="p-4">Modalidade</th>
+                  <th class="p-4">Município</th>
+                  <th class="p-4">Contato / WhatsApp</th>
+                  <th class="p-4">Status</th>
+                  <th class="p-4">Potencial</th>
+                  <th class="p-4 text-center">Ações & Agenda</th>
+                </tr>
+              </thead>
+              <tbody id="leadsTableBody" class="divide-y divide-slate-200 font-medium">
+                <tr>
+                  <td colspan="7" class="p-12 text-center text-slate-400">
+                    <div class="flex flex-col items-center justify-center gap-2">
+                      <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
+                      <span>Sincronizando com a base de dados...</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
+    </main>
+  </div>
 
-    </div>
-  </main>
-
-  <!-- MODAL DE CADASTRO/EDIÇÃO -->
-  <div id="leadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
+  <!-- MODAL COMPLETO DE CADASTRO/EDIÇÃO DE LEADS -->
+  <div id="leadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 my-auto">
       <div class="flex items-center justify-between border-b pb-4">
         <div>
@@ -286,6 +338,8 @@
       </div>
 
       <form id="crmForm" onsubmit="salvarLead(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <input type="hidden" id="leadOriginalUnidade">
+
         <div class="md:col-span-2">
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Unidade / Nome da Escola *</label>
           <input type="text" id="Unidade" required class="w-full border rounded-xl p-2.5 border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
@@ -394,15 +448,23 @@
     </div>
   </div>
 
-  <!-- LÓGICA E JAVASCRIPT COMPLETO -->
+  <!-- LÓGICA E JAVASCRIPT COMPLETO E RESTAURADO -->
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxabtEapcy0UpIpY8U0Kjl2FzUnQniJzX5gmiEDz0q2qi7djmMAGDJWS0yfwq0NYsCSDA/exec";
+    const AGENDA_URL = "https://savio-ferraz.github.io/agenda_amigia/";
+    
     let leadsCache = [];
     let currentViewFilter = 'all';
     let perfilAtivoNome = 'Savio Ferraz';
 
     let mainChartInstance = null;
     let secondaryChartInstance = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedUser = localStorage.getItem('amigia_user_name') || 'Savio Ferraz';
+      document.getElementById('userNameDisplay').textContent = savedUser;
+      carregarLeads();
+    });
 
     // GERENCIAMENTO DE PERFIL PREMIUM
     function toggleUserMenu() {
@@ -412,6 +474,7 @@
 
     function selecionarPerfil(nome, cargo, iniciais, corBg) {
       perfilAtivoNome = `${nome} (${cargo})`;
+      localStorage.setItem('amigia_user_name', nome);
       document.getElementById('userNameDisplay').textContent = nome;
       document.getElementById('userRoleDisplay').textContent = cargo;
       
@@ -422,7 +485,7 @@
       document.getElementById('userDropdown').classList.add('hidden');
     }
 
-    // NAVEGAÇÃO ENTRE ABAS
+    // NAVEGAÇÃO ENTRE ABAS DA SIDEBAR
     function navegarView(view) {
       currentViewFilter = view;
       const navAll = document.getElementById('navAll');
@@ -434,19 +497,19 @@
       });
 
       if (view === 'all') {
-        navAll.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition";
+        navAll.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-xs font-bold transition";
         document.getElementById('pageTitle').textContent = "Oportunidades & Leads";
         document.getElementById('pageSubtitle').textContent = "Gerencie o funil de prospecção e conversão de instituições de ensino.";
         document.getElementById('tableTitle').textContent = "Resultado de Leads Mapeados";
         document.getElementById('chart1Title').textContent = "Distribuição por Status de Prospecção";
       } else if (view === 'mapeadas') {
-        navMapeadas.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition";
+        navMapeadas.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-xs font-bold transition";
         document.getElementById('pageTitle').textContent = "Escolas Mapeadas";
-        document.getElementById('pageSubtitle').textContent = "Catálogo geral e inteligência territorial das instituições de ensino cadastradas.";
+        document.getElementById('pageSubtitle').textContent = "Catálogo geral e inteligência territorial das instituições cadastradas.";
         document.getElementById('tableTitle').textContent = "Todas as Escolas Mapeadas no Território";
         document.getElementById('chart1Title').textContent = "Distribuição de Escolas por Município";
       } else if (view === 'reunioes') {
-        navReunioes.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm font-semibold transition";
+        navReunioes.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-xs font-bold transition";
         document.getElementById('pageTitle').textContent = "Reuniões & Propostas Agendadas";
         document.getElementById('pageSubtitle').textContent = "Acompanhamento das negociações com reuniões confirmadas ou propostas enviadas.";
         document.getElementById('tableTitle').textContent = "Leads em Fase Avançada de Negociação";
@@ -456,7 +519,7 @@
       filtrarLeads();
     }
 
-    // CARREGAR DADOS DA PLANILHA
+    // CARREGAR DADOS DA PLANILHA (JSONP)
     function carregarLeads() {
       const tbody = document.getElementById('leadsTableBody');
       const icon = document.getElementById('btnRefreshIcon');
@@ -484,10 +547,8 @@
         tbody.innerHTML = `
           <tr>
             <td colspan="7" class="p-8 text-center text-red-500 font-semibold">
-              <div class="flex flex-col items-center justify-center gap-2">
-                <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
-                <span>Erro ao carregar os dados. Tente atualizar novamente.</span>
-              </div>
+              <i class="fa-solid fa-triangle-exclamation text-2xl mb-2 block"></i>
+              Erro ao carregar dados. Verifique a conexão com a API.
             </td>
           </tr>`;
       };
@@ -582,7 +643,9 @@
         let statusColor = "bg-slate-100 text-slate-700 border-slate-200";
         if (lead.Status === "Mensagem Enviada") statusColor = "bg-amber-50 text-amber-800 border-amber-200";
         if (lead.Status === "Reunião Agendada" || lead.Status === "Proposta enviada") statusColor = "bg-purple-50 text-purple-800 border-purple-200";
-        if (lead.Status === "Fechado") statusColor = "bg-emerald-50 text-emerald-800 border-emerald-200 border";
+        if (lead.Status === "Fechado") statusColor = "bg-emerald-50 text-emerald-800 border-emerald-200";
+
+        const urlAgendamento = `${AGENDA_URL}?title=${encodeURIComponent('Reunião - ' + nomeUnidade)}&category=Reunião`;
 
         tr.innerHTML = `
           <td class="p-4 font-bold text-slate-800">${nomeUnidade}</td>
@@ -591,10 +654,13 @@
           <td class="p-4 text-xs font-semibold text-slate-600">${lead['Telefone/WhatsApp'] || lead.Telefone || '-'}</td>
           <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold border ${statusColor}">${lead.Status || 'Não iniciado'}</span></td>
           <td class="p-4 text-xs font-bold text-slate-600">${lead.Potencial || '-'}</td>
-          <td class="p-4 text-center">
+          <td class="p-4 text-center flex items-center justify-center gap-1.5">
             <button onclick="abrirModalEditarLead('${String(nomeUnidade).replace(/'/g, "\\'")}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Editar Lead">
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
+            <a href="${urlAgendamento}" target="_blank" class="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition" title="Agendar na Agenda Amigia">
+              <i class="fa-solid fa-calendar-plus"></i>
+            </a>
           </td>
         `;
         tbody.appendChild(tr);
@@ -608,43 +674,32 @@
       document.getElementById('metricFechados').textContent = leads.filter(l => l.Status === 'Fechado').length;
     }
 
-    // ATUALIZAÇÃO DOS GRÁFICOS VISUAIS
+    // ATUALIZAÇÃO DOS GRÁFICOS VISUAIS COM CHART.JS
     function atualizarGraficos(leads) {
-      // Gráfico 1: Status ou Municípios dependendo da aba
-      const ctx1 = document.getElementById('mainChart').getContext('2d');
-      if (mainChartInstance) mainChartInstance.destroy();
+      const ctxMain = document.getElementById('mainChart').getContext('2d');
+      const ctxSecondary = document.getElementById('secondaryChart').getContext('2d');
 
-      let labels1 = [];
-      let data1 = [];
-
+      // Gráfico 1
+      let labelsMain = [], dataMain = [];
       if (currentViewFilter === 'mapeadas') {
-        const municipiosMap = {};
-        leads.forEach(l => {
-          const m = l.Município || 'Não Informado';
-          municipiosMap[m] = (municipiosMap[m] || 0) + 1;
-        });
-        labels1 = Object.keys(municipiosMap);
-        data1 = Object.values(municipiosMap);
+        const counts = {};
+        leads.forEach(l => { if (l.Município) counts[l.Município] = (counts[l.Município] || 0) + 1; });
+        labelsMain = Object.keys(counts);
+        dataMain = Object.values(counts);
       } else {
-        const statusMap = {
-          'Não iniciado': 0, 'Mensagem Enviada': 0, 'Em andamento': 0,
-          'Reunião Agendada': 0, 'Proposta enviada': 0, 'Fechado': 0
-        };
-        leads.forEach(l => {
-          const st = l.Status || 'Não iniciado';
-          statusMap[st] = (statusMap[st] || 0) + 1;
-        });
-        labels1 = Object.keys(statusMap);
-        data1 = Object.values(statusMap);
+        const statuses = ["Não iniciado", "Mensagem Enviada", "Em andamento", "Reunião Agendada", "Proposta enviada", "Fechado"];
+        labelsMain = statuses;
+        dataMain = statuses.map(st => leads.filter(l => l.Status === st).length);
       }
 
-      mainChartInstance = new Chart(ctx1, {
+      if (mainChartInstance) mainChartInstance.destroy();
+      mainChartInstance = new Chart(ctxMain, {
         type: 'bar',
         data: {
-          labels: labels1,
+          labels: labelsMain,
           datasets: [{
-            label: 'Quantidade',
-            data: data1,
+            label: 'Total de Escolas',
+            data: dataMain,
             backgroundColor: '#2563eb',
             borderRadius: 8
           }]
@@ -653,27 +708,22 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true } }
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
         }
       });
 
-      // Gráfico 2: Modalidades (Particular vs Pública)
-      const ctx2 = document.getElementById('secondaryChart').getContext('2d');
+      // Gráfico 2 (Modalidade)
+      const partCount = leads.filter(l => l.Modalidade === 'Particular').length;
+      const pubCount = leads.filter(l => l.Modalidade === 'Pública').length;
+
       if (secondaryChartInstance) secondaryChartInstance.destroy();
-
-      const modalidadeMap = {};
-      leads.forEach(l => {
-        const mod = l.Modalidade || 'Outros';
-        modalidadeMap[mod] = (modalidadeMap[mod] || 0) + 1;
-      });
-
-      secondaryChartInstance = new Chart(ctx2, {
+      secondaryChartInstance = new Chart(ctxSecondary, {
         type: 'doughnut',
         data: {
-          labels: Object.keys(modalidadeMap),
+          labels: ['Particular', 'Pública'],
           datasets: [{
-            data: Object.values(modalidadeMap),
-            backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6']
+            data: [partCount, pubCount],
+            backgroundColor: ['#2563eb', '#10b981']
           }]
         },
         options: {
@@ -684,30 +734,39 @@
       });
     }
 
-    // MODAL E FORMULÁRIO
+    // AÇÕES DO MODAL (CADASTRO E EDIÇÃO DE LEADS)
     function abrirModalNovoLead() {
       document.getElementById('crmForm').reset();
-      document.getElementById('Unidade').readOnly = false;
+      document.getElementById('leadOriginalUnidade').value = '';
       document.getElementById('modalTitle').textContent = "Cadastrar Novo Lead";
-      document.getElementById('modalSubtitle').textContent = "Preencha as informações para registrar um novo lead do zero.";
+      document.getElementById('modalSubtitle').textContent = "Preencha as informações para registrar na base de dados.";
       document.getElementById('leadModal').classList.remove('hidden');
     }
 
     function abrirModalEditarLead(unidadeNome) {
-      const lead = leadsCache.find(l => (l.Unidade || l.Escola || Object.values(l)[0]) === unidadeNome);
+      const lead = leadsCache.find(l => (l.Unidade || l.Escola) === unidadeNome);
       if (!lead) return;
 
-      document.getElementById('crmForm').reset();
-      
-      Object.keys(lead).forEach(key => {
-        const field = document.getElementById(key);
-        if (field) field.value = lead[key] || '';
-      });
+      document.getElementById('leadOriginalUnidade').value = unidadeNome;
+      document.getElementById('Unidade').value = lead.Unidade || lead.Escola || '';
+      document.getElementById('Segmento').value = lead.Segmento || 'Educação';
+      document.getElementById('Nome do responsável').value = lead['Nome do responsável'] || '';
+      document.getElementById('Cargo').value = lead.Cargo || '';
+      document.getElementById('Modalidade').value = lead.Modalidade || 'Particular';
+      document.getElementById('Município').value = lead.Município || '';
+      document.getElementById('Telefone/WhatsApp').value = lead['Telefone/WhatsApp'] || lead.Telefone || '';
+      document.getElementById('E-mail').value = lead['E-mail'] || lead.Email || '';
+      document.getElementById('Status').value = lead.Status || 'Não iniciado';
+      document.getElementById('Potencial').value = lead.Potencial || 'Médio';
+      document.getElementById('Reunião Realizada?').value = lead['Reunião Realizada?'] || 'Não';
+      document.getElementById('Origem do lead').value = lead['Origem do lead'] || 'Google Maps';
+      document.getElementById('Instagram').value = lead.Instagram || '';
+      document.getElementById('Site').value = lead.Site || '';
+      document.getElementById('Endereço').value = lead.Endereço || '';
+      document.getElementById('Observações').value = lead.Observações || '';
 
-      document.getElementById('Unidade').value = unidadeNome;
-      document.getElementById('Unidade').readOnly = true;
-      document.getElementById('modalTitle').textContent = "Editar Lead — " + unidadeNome;
-      document.getElementById('modalSubtitle').textContent = "Altere os status e observações para atualizar na planilha.";
+      document.getElementById('modalTitle').textContent = "Editar Lead / Oportunidade";
+      document.getElementById('modalSubtitle').textContent = "Atualize os dados da instituição de ensino.";
       document.getElementById('leadModal').classList.remove('hidden');
     }
 
@@ -715,54 +774,49 @@
       document.getElementById('leadModal').classList.add('hidden');
     }
 
-    async function salvarLead(e) {
-      e.preventDefault();
+    function salvarLead(event) {
+      event.preventDefault();
       const btn = document.getElementById('btnSalvar');
       btn.disabled = true;
-      btn.textContent = "⏳ Salvando...";
+      btn.textContent = "Gravando...";
 
-      const dataHoje = new Date().toLocaleDateString('pt-BR');
+      const payload = {
+        "Unidade": document.getElementById('Unidade').value,
+        "Segmento": document.getElementById('Segmento').value,
+        "Nome do responsável": document.getElementById('Nome do responsável').value,
+        "Cargo": document.getElementById('Cargo').value,
+        "Modalidade": document.getElementById('Modalidade').value,
+        "Município": document.getElementById('Município').value,
+        "Telefone/WhatsApp": document.getElementById('Telefone/WhatsApp').value,
+        "E-mail": document.getElementById('E-mail').value,
+        "Status": document.getElementById('Status').value,
+        "Potencial": document.getElementById('Potencial').value,
+        "Reunião Realizada?": document.getElementById('Reunião Realizada?').value,
+        "Origem do lead": document.getElementById('Origem do lead').value,
+        "Instagram": document.getElementById('Instagram').value,
+        "Site": document.getElementById('Site').value,
+        "Endereço": document.getElementById('Endereço').value,
+        "Observações": document.getElementById('Observações').value
+      };
 
-      const fields = [
-        "Unidade", "Segmento", "Nome do responsável", "Cargo", "Modalidade",
-        "Município", "Telefone/WhatsApp", "E-mail", "Instagram", "Site",
-        "Endereço", "Serviço recomendado", "Origem do lead", "Status",
-        "Reunião Realizada?", "Potencial", "Avaliação Google", "Data de Contato via e-mail",
-        "Recontato", "Mensagem na Rede Social via", "Observações", "Visitado"
-      ];
-
-      const payload = {};
-      fields.forEach(field => {
-        const el = document.getElementById(field);
-        payload[field] = el ? el.value : '';
-      });
-
-      const obsAtual = payload["Observações"] || "";
-      const notaAssinada = `[${dataHoje} - Editado por: ${perfilAtivoNome}]`;
-      if (!obsAtual.includes(notaAssinada)) {
-        payload["Observações"] = (obsAtual ? obsAtual + "\n" : "") + notaAssinada;
-      }
-
-      try {
-        await fetch(API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        alert(`✅ Oportunidade salva com sucesso por ${perfilAtivoNome}!`);
-        fecharModal();
-        carregarLeads();
-      } catch (err) {
-        alert("❌ Erro ao salvar: " + err);
-      } finally {
+      fetch(API_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(() => {
+        alert("Lead salvo com sucesso!");
         btn.disabled = false;
         btn.textContent = "💾 Salvar Oportunidade";
-      }
+        fecharModal();
+        carregarLeads();
+      }).catch(err => {
+        console.error(err);
+        alert("Erro ao gravar dados.");
+        btn.disabled = false;
+        btn.textContent = "💾 Salvar Oportunidade";
+      });
     }
-
-    window.onload = carregarLeads;
   </script>
 </body>
 </html>
